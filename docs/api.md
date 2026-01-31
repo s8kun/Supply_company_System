@@ -9,7 +9,6 @@ http://localhost:8000/api/v1
 ## Response Format
 
 All successful responses follow this shape:
-
 ```json
 {
   "status": "success",
