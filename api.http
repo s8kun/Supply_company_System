@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:8000/api/v1
+@customerId = 1
+
+### List customers
+GET {{baseUrl}}/customers
+Accept: application/json
+
+### Create customer
+POST {{baseUrl}}/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "first_name": "Ahmed",
+  "middle_name": "Ali",
+  "last_name": "Hassan",
+  "house_no": "12",
+  "street_name": "King Road",
+  "city": "Riyadh",
+  "zip_code": "11564",
+  "phone": "0551234567",
+  "credit_limit": 5000.00
+}
+
+### Show customer
+GET {{baseUrl}}/customers/{{customerId}}
+Accept: application/json
+
+### Update customer
+PUT {{baseUrl}}/customers/{{customerId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "phone": "0559998888",
+  "credit_limit": 7500.00
+}
+
+### Delete customer
+DELETE {{baseUrl}}/customers/{{customerId}}
+Accept: application/json
