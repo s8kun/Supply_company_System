@@ -605,7 +605,10 @@
             "type": "integer"
           },
           "image_url": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "created_at": {
             "type": [
@@ -631,6 +634,7 @@
           "currentQuantity",
           "reorderLevel",
           "reorderQuantity",
+          "image_url",
           "created_at",
           "updated_at"
         ],
@@ -704,8 +708,13 @@
             "type": "integer"
           },
           "image": {
-            "type": "string",
-            "format": "binary"
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "binary",
+            "contentMediaType": "application/octet-stream",
+            "maxLength": 2048
           }
         },
         "required": [
@@ -792,8 +801,13 @@
             "minimum": 0
           },
           "image": {
-            "type": "string",
-            "format": "binary"
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "binary",
+            "contentMediaType": "application/octet-stream",
+            "maxLength": 2048
           }
         },
         "title": "UpdateProductRequest"
