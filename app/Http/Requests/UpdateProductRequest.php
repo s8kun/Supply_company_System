@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCustomerRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,13 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required',
-            'middle_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required|unique:customers,phone',
-            'house_no' => 'required',
-            'street_name' => 'required',
-            'city' => 'required',
-            'zip_code' => 'required',
+            'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'costPrice' => 'sometimes|numeric|min:0',
+            'sellPrice' => 'sometimes|numeric|min:0|gte:costPrice',
+            'currentQuantity' => 'sometimes|integer|min:0',
+            'reorderLevel' => 'sometimes|integer|min:0',
+            'reorderQuantity' => 'sometimes|integer|min:0',
         ];
     }
 }

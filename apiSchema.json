@@ -1,0 +1,843 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SupplyCompany",
+    "version": "1.0.0",
+    "description": "API documentation"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000/api/v1"
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "get": {
+        "operationId": "customers.index",
+        "summary": "Display a listing of the resource",
+        "tags": [
+          "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CustomerResource"
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "customers.store",
+        "summary": "Store a newly created resource in storage",
+        "tags": [
+          "Customer"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreCustomerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      }
+    },
+    "/customers/{customer}": {
+      "get": {
+        "operationId": "customers.show",
+        "summary": "Display the specified resource",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "description": "The customer customerid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      },
+      "put": {
+        "operationId": "customers.update",
+        "summary": "Update the specified resource in storage",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "description": "The customer customerid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCustomerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "customers.destroy",
+        "summary": "Remove the specified resource from storage",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "required": true,
+            "description": "The customer customerid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "operationId": "products.index",
+        "summary": "Display a listing of the resource",
+        "tags": [
+          "Product"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ProductResource"
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "products.store",
+        "summary": "Store a newly created resource in storage",
+        "tags": [
+          "Product"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ProductResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      }
+    },
+    "/products/{product}": {
+      "get": {
+        "operationId": "products.show",
+        "summary": "Display the specified resource",
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "description": "The product productid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ProductResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      },
+      "put": {
+        "operationId": "products.update",
+        "summary": "Update the specified resource in storage",
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "description": "The product productid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ProductResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "products.destroy",
+        "summary": "Remove the specified resource from storage",
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "description": "The product productid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "Product deleted successfully"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomerResource": {
+        "type": "object",
+        "properties": {
+          "customerID": {
+            "type": "integer"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "middle_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "house_no": {
+                "type": "string"
+              },
+              "street_name": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "zip_code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "house_no",
+              "street_name",
+              "city",
+              "zip_code"
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "credit_limit": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "customerID",
+          "first_name",
+          "middle_name",
+          "last_name",
+          "address",
+          "phone",
+          "credit_limit",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CustomerResource"
+      },
+      "ProductResource": {
+        "type": "object",
+        "properties": {
+          "productID": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "costPrice": {
+            "type": "string"
+          },
+          "sellPrice": {
+            "type": "string"
+          },
+          "currentQuantity": {
+            "type": "integer"
+          },
+          "reorderLevel": {
+            "type": "integer"
+          },
+          "reorderQuantity": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "productID",
+          "name",
+          "description",
+          "costPrice",
+          "sellPrice",
+          "currentQuantity",
+          "reorderLevel",
+          "reorderQuantity",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ProductResource"
+      },
+      "StoreCustomerRequest": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string"
+          },
+          "middle_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "house_no": {
+            "type": "string"
+          },
+          "street_name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "zip_code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "first_name",
+          "middle_name",
+          "last_name",
+          "phone",
+          "house_no",
+          "street_name",
+          "city",
+          "zip_code"
+        ],
+        "title": "StoreCustomerRequest"
+      },
+      "StoreProductRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "costPrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "sellPrice": {
+            "type": "number"
+          },
+          "currentQuantity": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reorderLevel": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "reorderQuantity": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "costPrice",
+          "sellPrice",
+          "currentQuantity",
+          "reorderLevel",
+          "reorderQuantity"
+        ],
+        "title": "StoreProductRequest"
+      },
+      "UpdateCustomerRequest": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "middle_name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "last_name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "house_no": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "street_name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "zip_code": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "credit_limit": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "title": "UpdateCustomerRequest"
+      },
+      "UpdateProductRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string"
+          },
+          "costPrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "sellPrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "currentQuantity": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reorderLevel": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reorderQuantity": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "title": "UpdateProductRequest"
+      }
+    },
+    "responses": {
+      "ValidationException": {
+        "description": "Validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Errors overview."
+                },
+                "errors": {
+                  "type": "object",
+                  "description": "A detailed description of each field that failed validation.",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "message",
+                "errors"
+              ]
+            }
+          }
+        }
+      },
+      "ModelNotFoundException": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Error overview."
+                }
+              },
+              "required": [
+                "message"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

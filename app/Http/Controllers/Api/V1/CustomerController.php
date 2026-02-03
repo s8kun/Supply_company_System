@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
-
+use OpenApi\Annotations as OA;
 class CustomerController extends Controller
 {
     /**

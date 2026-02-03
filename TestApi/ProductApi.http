@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:8000/api/v1
+@productId = 1
+
+### List products
+GET {{baseUrl}}/products
+Accept: application/json
+
+### Create product
+POST {{baseUrl}}/products
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Samsung Galaxy A55",
+    "description": "Smartphone with 5G, 128GB storage, and 8GB RAM",
+    "costPrice": 950.00,
+    "sellPrice": 1200.00,
+    "currentQuantity": 50,
+    "reorderLevel": 10,
+    "reorderQuantity": 30
+}
+
+
+### Show product
+GET {{baseUrl}}/products/{{productId}}
+Accept: application/json
+
+### Update product
+PUT {{baseUrl}}/products/{{productId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Samsung Galaxy A54"
+}
+
+### Delete product
+DELETE {{baseUrl}}/products/{{productId}}
+Accept: application/json
