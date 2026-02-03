@@ -302,7 +302,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/StoreProductRequest"
               }
@@ -409,7 +409,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateProductRequest"
               }
@@ -604,6 +604,9 @@
           "reorderQuantity": {
             "type": "integer"
           },
+          "image_url": {
+            "type": ["string", "null"]
+          },
           "created_at": {
             "type": [
               "string",
@@ -699,6 +702,10 @@
           },
           "reorderQuantity": {
             "type": "integer"
+          },
+          "image": {
+            "type": "string",
+            "format": "binary"
           }
         },
         "required": [
@@ -783,6 +790,10 @@
           "reorderQuantity": {
             "type": "integer",
             "minimum": 0
+          },
+          "image": {
+            "type": "string",
+            "format": "binary"
           }
         },
         "title": "UpdateProductRequest"

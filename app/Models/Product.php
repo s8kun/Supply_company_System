@@ -16,5 +16,6 @@ class Product extends Model
         'currentQuantity',
         'reorderLevel',
         'reorderQuantity',
+        'image',
     ];
 }

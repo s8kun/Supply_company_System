@@ -29,6 +29,7 @@ class StoreProductRequest extends FormRequest
             'currentQuantity' => 'required|integer|min:0',
             'reorderLevel' => 'required|integer|min:1',
             'reorderQuantity' => 'required|integer|gte:reorderLevel',
+            'image' => 'nullable|image|max:2048',
         ];
     }
 }

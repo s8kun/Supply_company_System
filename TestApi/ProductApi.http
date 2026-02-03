@@ -16,6 +16,7 @@ Accept: application/json
     "costPrice": 950.00,
     "sellPrice": 1200.00,
     "currentQuantity": 50,
+    "imageUrl": "/home/abdullahelferjani/Downloads/sung-jinwoo-season-3840x2160-23604.jpg",
     "reorderLevel": 10,
     "reorderQuantity": 30
 }

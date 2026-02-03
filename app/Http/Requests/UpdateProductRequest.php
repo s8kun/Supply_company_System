@@ -29,6 +29,7 @@ class UpdateProductRequest extends FormRequest
             'currentQuantity' => 'sometimes|integer|min:0',
             'reorderLevel' => 'sometimes|integer|min:0',
             'reorderQuantity' => 'sometimes|integer|min:0',
+            'image' => 'nullable|image|max:2048',
         ];
     }
 }

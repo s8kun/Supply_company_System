@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,7 @@ class ProductController extends Controller
     {
         return response()->json([
             'status' => 'success',
-            'data' => ProductResource::collection(Product::all())
+            'data' => ProductResource::collection(Product::latest()->paginate(10))
         ], 200);
     }
 
@@ -27,7 +28,10 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $product = Product::create($request->validated());
+        $data = $request->validated();
+        $data['image'] = $this->uploadImage($request, 'image', 'products');
+
+        $product = Product::create($data);
 
         return response()->json([
             'status' => 'success',
@@ -51,7 +55,14 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->all());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $this->deleteImage($product->image);
+            $data['image'] = $this->uploadImage($request, 'image', 'products');
+        }
+
+        $product->update($data);
 
         return response()->json([
             'status' => 'success',
@@ -64,11 +75,34 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->deleteImage($product->image);
+
         $product->delete();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Product deleted successfully'
         ], 200);
+    }
+
+    /**
+     * Upload an image.
+     */
+    private function uploadImage(Request $request, string $key, string $folder): ?string
+    {
+        if ($request->hasFile($key)) {
+            return $request->file($key)->store($folder, 'public');
+        }
+        return null;
+    }
+
+    /**
+     * Delete an image.
+     */
+    private function deleteImage(?string $path): void
+    {
+        if ($path) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }
