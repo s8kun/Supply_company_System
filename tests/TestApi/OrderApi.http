@@ -1,0 +1,33 @@
+### List orders
+GET http://localhost:8000/api/v1/orders
+Accept: application/json
+
+### Create order
+POST http://localhost:8000/api/v1/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+  "customerID": 1,
+  "totalPrice": 300.00,
+  "dueDate": "2026-02-05",
+  "orderStatus": "pending",
+  "isPaid": false
+}
+
+### Show order
+GET http://localhost:8000/api/v1/orders/1
+Accept: application/json
+
+### Update order
+PUT http://localhost:8000/api/v1/orders/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "orderStatus": "completed"
+}
+
+### Delete order
+DELETE http://localhost:8000/api/v1/orders/1
+Accept: application/json

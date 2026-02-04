@@ -9,8 +9,14 @@ use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
+use App\Services\CustomerService;
+
 class CustomerController extends Controller
 {
+    public function __construct(private CustomerService $customerService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -27,8 +33,7 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request): JsonResponse
     {
-        $customer = Customer::create($request->validated());
-
+        $customer = $this->customerService->createNewCustomer($request, new Customer());
         return response()->json([
             'status' => 'success',
             'data' => new CustomerResource($customer)
@@ -58,6 +63,7 @@ class CustomerController extends Controller
             'data' => new CustomerResource($customer)
         ], 200);
     }
+
     /**
      * Remove the specified resource from storage.
      */

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\CustomerController;
+use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,4 +13,5 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('products', ProductController::class);
+    Route::apiResource('orders', OrderController::class);
 });
