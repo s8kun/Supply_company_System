@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\DeliveryStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
-class StoreCustomerRequest extends FormRequest
+class UpdateOrderItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +24,7 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required',
-            'middle_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required|unique:customers,phone',
-            'house_no' => 'required',
-            'street_name' => 'required',
-            'city' => 'required',
-            'zip_code' => 'required',
-            'credit_limit' => 'required|numeric|min:0',
+            'deliveryStatus' => ['required', new Enum(DeliveryStatus::class)],
         ];
     }
 }

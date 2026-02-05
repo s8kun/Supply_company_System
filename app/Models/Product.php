@@ -16,6 +16,15 @@ class Product extends Model
         'currentQuantity',
         'reorderLevel',
         'reorderQuantity',
-        'image',
+        'images',
     ];
+
+    protected $casts = [
+        'images' => 'array',
+    ];
+
+    public function reorderNotices()
+    {
+        return $this->hasMany(ReorderNotice::class, 'productID', 'productID');
+    }
 }

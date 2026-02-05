@@ -27,9 +27,10 @@ class UpdateProductRequest extends FormRequest
             'costPrice' => 'sometimes|numeric|min:0',
             'sellPrice' => 'sometimes|numeric|min:0|gte:costPrice',
             'currentQuantity' => 'sometimes|integer|min:0',
-            'reorderLevel' => 'sometimes|integer|min:0',
-            'reorderQuantity' => 'sometimes|integer|min:0',
-            'image' => 'nullable|image|max:2048',
+            'reorderLevel' => 'sometimes|integer|min:1',
+            'reorderQuantity' => 'sometimes|integer|min:1|gte:reorderLevel',
+            'images' => 'nullable|array|min:3|max:4',
+            'images.*' => 'image|max:2048',
         ];
     }
 }

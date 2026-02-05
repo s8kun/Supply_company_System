@@ -1,12 +1,9 @@
 # Supply Company System API
 
-## Base URL
-
+Base URL:
 ```
 http://localhost:8000/api/v1
 ```
-
-## Response Format
 
 All successful responses follow this shape:
 ```json
@@ -16,54 +13,29 @@ All successful responses follow this shape:
 }
 ```
 
-Validation failures return HTTP `422` with error details.
+Validation errors return HTTP `422` with details.
 
-## Customer Resource
+## Status Values
 
-Fields returned by the API:
+OrderStatus:
+- `pending`
+- `processing`
+- `completed`
+- `cancelled`
 
-```json
-{
-  "customerID": 1,
-  "first_name": "Ahmed",
-  "middle_name": "Ali",
-  "last_name": "Hassan",
-  "address": {
-    "house_no": "12",
-    "street_name": "King Road",
-    "city": "Riyadh",
-    "zip_code": "11564"
-  },
-  "phone": "0551234567",
-  "credit_limit": 5000.00,
-  "created_at": "2026-01-31 12:00:00",
-  "updated_at": "2026-01-31 12:00:00"
-}
-```
+DeliveryStatus:
+- `pending`
+- `delivered`
 
-## Endpoints
+## Customers
 
-### List Customers
-
+### List customers
 `GET /customers`
 
-**Response** `200`
-
-```json
-{
-  "status": "success",
-  "data": [
-    { "customerID": 1, "first_name": "Ahmed", "middle_name": "Ali", "last_name": "Hassan", "address": { "house_no": "12", "street_name": "King Road", "city": "Riyadh", "zip_code": "11564" }, "phone": "0551234567", "credit_limit": 5000.00, "created_at": "2026-01-31 12:00:00", "updated_at": "2026-01-31 12:00:00" }
-  ]
-}
-```
-
-### Create Customer
-
+### Create customer
 `POST /customers`
 
-**Request Body**
-
+Body (JSON):
 ```json
 {
   "first_name": "Ahmed",
@@ -78,46 +50,13 @@ Fields returned by the API:
 }
 ```
 
-**Validation Rules**
-
-- `first_name`: required
-- `middle_name`: required
-- `last_name`: required
-- `house_no`: required
-- `street_name`: required
-- `city`: required
-- `zip_code`: required
-- `phone`: required, unique in `customers`
-- `credit_limit`: required, numeric
-
-**Response** `201`
-
-```json
-{
-  "status": "success",
-  "data": { "customerID": 1, "first_name": "Ahmed", "middle_name": "Ali", "last_name": "Hassan", "address": { "house_no": "12", "street_name": "King Road", "city": "Riyadh", "zip_code": "11564" }, "phone": "0551234567", "credit_limit": 5000.00, "created_at": "2026-01-31 12:00:00", "updated_at": "2026-01-31 12:00:00" }
-}
-```
-
-### Show Customer
-
+### Show customer
 `GET /customers/{customerID}`
 
-**Response** `200`
-
-```json
-{
-  "status": "success",
-  "data": { "customerID": 1, "first_name": "Ahmed", "middle_name": "Ali", "last_name": "Hassan", "address": { "house_no": "12", "street_name": "King Road", "city": "Riyadh", "zip_code": "11564" }, "phone": "0551234567", "credit_limit": 5000.00, "created_at": "2026-01-31 12:00:00", "updated_at": "2026-01-31 12:00:00" }
-}
-```
-
-### Update Customer
-
+### Update customer
 `PUT /customers/{customerID}`
 
-**Request Body (partial allowed)**
-
+Body (JSON, partial allowed):
 ```json
 {
   "phone": "0559998888",
@@ -125,42 +64,145 @@ Fields returned by the API:
 }
 ```
 
-**Validation Rules**
-
-- `first_name`: sometimes|required
-- `middle_name`: sometimes|required
-- `last_name`: sometimes|required
-- `house_no`: sometimes|required
-- `street_name`: sometimes|required
-- `city`: sometimes|required
-- `zip_code`: sometimes|required
-- `phone`: sometimes|required, unique in `customers` (ignores current customer)
-- `credit_limit`: sometimes|required, numeric
-
-**Response** `200`
-
-```json
-{
-  "status": "success",
-  "data": { "customerID": 1, "first_name": "Ahmed", "middle_name": "Ali", "last_name": "Hassan", "address": { "house_no": "12", "street_name": "King Road", "city": "Riyadh", "zip_code": "11564" }, "phone": "0559998888", "credit_limit": 7500.00, "created_at": "2026-01-31 12:00:00", "updated_at": "2026-01-31 12:00:00" }
-}
-```
-
-### Delete Customer
-
+### Delete customer
 `DELETE /customers/{customerID}`
 
-**Response** `204`
+## Products
 
+### List products
+`GET /products`
+
+### Create product
+`POST /products`
+
+You can send JSON without images:
 ```json
 {
-  "status": "success",
-  "data": null
+  "name": "Samsung Galaxy A55",
+  "description": "Smartphone with 5G, 128GB storage, and 8GB RAM",
+  "costPrice": 950.00,
+  "sellPrice": 1200.00,
+  "currentQuantity": 50,
+  "reorderLevel": 10,
+  "reorderQuantity": 30
 }
 ```
 
-## Testing
+Or send multipart with 3–4 images:
+```
+name=Samsung Galaxy A55
+description=Smartphone with 5G, 128GB storage, and 8GB RAM
+costPrice=950.00
+sellPrice=1200.00
+currentQuantity=50
+reorderLevel=10
+reorderQuantity=30
+images[]=@/path/to/image1.jpg
+images[]=@/path/to/image2.jpg
+images[]=@/path/to/image3.jpg
+```
 
-You can use the HTTP client file in the repo:
+### Show product
+`GET /products/{productID}`
 
-- `api.http`
+### Update product
+`PUT /products/{productID}` (or `PATCH`)
+
+If you send `images[]`, existing images are replaced.
+
+### Delete product
+`DELETE /products/{productID}`
+
+## Orders
+
+### List orders
+`GET /orders`
+
+### Create order
+`POST /orders`
+
+Body (JSON):
+```json
+{
+  "customerID": 1,
+  "dueDate": "2026-02-10",
+  "items": [
+    { "productID": 1, "quantity": 2 },
+    { "productID": 2, "quantity": 1 }
+  ]
+}
+```
+
+Notes:
+- `totalPrice` is calculated server-side.
+- Customer credit is decreased by the order total.
+
+### Show order
+`GET /orders/{orderID}`
+
+### Update order
+`PATCH /orders/{orderID}`
+
+Body (JSON, partial allowed):
+```json
+{
+  "dueDate": "2026-02-12",
+  "isPaid": false
+}
+```
+
+### Cancel order
+`POST /orders/{orderID}/cancel`
+
+Rules:
+- Cancellation allowed only if no items are delivered.
+- Credit is restored.
+- Inventory is not changed (stock is reduced only on delivery).
+
+### Delete order
+`DELETE /orders/{orderID}`
+
+## Order Items
+
+### List order items
+`GET /order-items`
+
+### Show order item
+`GET /order-items/{orderItemID}`
+
+### Deliver order item
+`PATCH /order-items/{orderItemID}`
+
+Body (JSON):
+```json
+{
+  "deliveryStatus": "delivered"
+}
+```
+
+## Redeem Codes
+
+### Create redeem code
+`POST /redeem-codes`
+
+Body (JSON):
+```json
+{
+  "amount": 150.00
+}
+```
+
+### Redeem code
+`POST /redeem-codes/redeem`
+
+Body (JSON):
+```json
+{
+  "customerID": 1,
+  "code": "PASTE_CODE_HERE"
+}
+```
+
+Notes:
+- Codes are single-use.
+- Reusing a code returns a validation error.

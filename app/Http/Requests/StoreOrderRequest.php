@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\OrderStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -25,10 +23,10 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'customerID' => 'required|exists:customers,customerID',
-            'totalPrice' => 'required|numeric|min:0',
             'dueDate' => 'required|date|after_or_equal:today',
-            'orderStatus' => ['required', new Enum(OrderStatus::class)],
-            'isPaid' => 'required|boolean',
+            'items' => 'required|array|min:1',
+            'items.*.productID' => 'required|distinct|exists:products,productID',
+            'items.*.quantity' => 'required|integer|min:1',
         ];
     }
 }

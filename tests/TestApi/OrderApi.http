@@ -1,33 +1,42 @@
+@baseUrl = http://localhost:8000/api/v1
+@orderId = 1
+@customerId = 1
+
 ### List orders
-GET http://localhost:8000/api/v1/orders
+GET {{baseUrl}}/orders
 Accept: application/json
 
 ### Create order
-POST http://localhost:8000/api/v1/orders
+POST {{baseUrl}}/orders
 Content-Type: application/json
 Accept: application/json
 
 {
-  "customerID": 1,
-  "totalPrice": 300.00,
-  "dueDate": "2026-02-05",
-  "orderStatus": "pending",
-  "isPaid": false
+  "customerID": {{customerId}},
+  "dueDate": "2026-02-10",
+  "items": [
+    { "productID": 1, "quantity": 2 },
+    { "productID": 2, "quantity": 1 }
+  ]
 }
 
 ### Show order
-GET http://localhost:8000/api/v1/orders/1
+GET {{baseUrl}}/orders/{{orderId}}
 Accept: application/json
 
 ### Update order
-PUT http://localhost:8000/api/v1/orders/1
+PATCH {{baseUrl}}/orders/{{orderId}}
 Content-Type: application/json
 Accept: application/json
 
 {
-  "orderStatus": "completed"
+  "dueDate": "2026-02-12"
 }
 
 ### Delete order
-DELETE http://localhost:8000/api/v1/orders/1
+DELETE {{baseUrl}}/orders/{{orderId}}
+Accept: application/json
+
+### Cancel order
+POST {{baseUrl}}/orders/{{orderId}}/cancel
 Accept: application/json

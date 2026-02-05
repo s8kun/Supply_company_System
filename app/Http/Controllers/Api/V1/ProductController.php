@@ -33,9 +33,15 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $data = $request->validated();
-        
-        if ($request->hasFile('image')) {
-            $data['image'] = $this->imageService->upload($request->file('image'), 'products');
+
+        if ($request->hasFile('images')) {
+            $paths = [];
+            foreach ($request->file('images') as $image) {
+                $paths[] = $this->imageService->upload($image, 'products');
+            }
+            $data['images'] = $paths;
+        } else {
+            unset($data['images']);
         }
 
         $product = Product::create($data);
@@ -64,16 +70,25 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $this->imageService->delete($product->image);
-            $data['image'] = $this->imageService->upload($request->file('image'), 'products');
+        if ($request->hasFile('images')) {
+            foreach (($product->images ?? []) as $path) {
+                $this->imageService->delete($path);
+            }
+
+            $paths = [];
+            foreach ($request->file('images') as $image) {
+                $paths[] = $this->imageService->upload($image, 'products');
+            }
+            $data['images'] = $paths;
+        } else {
+            unset($data['images']);
         }
 
         $product->update($data);
 
         return response()->json([
             'status' => 'success',
-            'data' => new ProductResource($product)
+            'data' => new ProductResource($product->fresh())
         ], 200);
     }
 
@@ -82,7 +97,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $this->imageService->delete($product->image);
+        foreach (($product->images ?? []) as $path) {
+            $this->imageService->delete($path);
+        }
 
         $product->delete();
 

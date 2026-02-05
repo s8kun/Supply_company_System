@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\OrderStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
 class UpdateOrderRequest extends FormRequest
 {
@@ -24,10 +22,7 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customerID' => 'sometimes|required|exists:customers,customerID',
-            'totalPrice' => 'sometimes|required|numeric|min:0',
             'dueDate' => 'sometimes|required|date|after_or_equal:today',
-            'orderStatus' => ['sometimes', 'required', new Enum(OrderStatus::class)],
             'isPaid' => 'sometimes|required|boolean',
         ];
     }

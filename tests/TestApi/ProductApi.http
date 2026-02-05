@@ -16,10 +16,25 @@ Accept: application/json
     "costPrice": 950.00,
     "sellPrice": 1200.00,
     "currentQuantity": 50,
-    "imageUrl": "/home/abdullahelferjani/Downloads/sung-jinwoo-season-3840x2160-23604.jpg",
     "reorderLevel": 10,
     "reorderQuantity": 30
 }
+
+### Create product with image (multipart)
+POST {{baseUrl}}/products
+Content-Type: multipart/form-data
+Accept: application/json
+
+name=Samsung Galaxy A55
+description=Smartphone with 5G, 128GB storage, and 8GB RAM
+costPrice=950.00
+sellPrice=1200.00
+currentQuantity=50
+reorderLevel=10
+reorderQuantity=30
+images[]=@/path/to/image1.jpg
+images[]=@/path/to/image2.jpg
+images[]=@/path/to/image3.jpg
 
 
 ### Show product
