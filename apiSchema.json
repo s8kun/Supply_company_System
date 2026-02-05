@@ -255,6 +255,450 @@
         }
       }
     },
+    "/orders": {
+      "get": {
+        "operationId": "orders.index",
+        "summary": "Display a listing of the resource",
+        "tags": [
+          "Order"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/LengthAwarePaginator"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "orders.store",
+        "summary": "Store a newly created resource in storage",
+        "tags": [
+          "Order"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/OrderResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      }
+    },
+    "/orders/{order}": {
+      "get": {
+        "operationId": "orders.show",
+        "summary": "Display the specified resource",
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "path",
+            "required": true,
+            "description": "The order orderid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/OrderResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      },
+      "put": {
+        "operationId": "orders.update",
+        "summary": "Update the specified resource in storage",
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "path",
+            "required": true,
+            "description": "The order orderid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/OrderResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "orders.destroy",
+        "summary": "Remove the specified resource from storage",
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "path",
+            "required": true,
+            "description": "The order orderid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "Order deleted successfully"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      }
+    },
+    "/orders/{order}/cancel": {
+      "post": {
+        "operationId": "order.cancel",
+        "summary": "Cancel the specified order",
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "path",
+            "required": true,
+            "description": "The order orderid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/OrderResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      }
+    },
+    "/order-items": {
+      "get": {
+        "operationId": "order-items.index",
+        "summary": "Display a listing of the resource",
+        "tags": [
+          "OrderItem"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/OrderItemResource"
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order-items/{orderItem}": {
+      "get": {
+        "operationId": "order-items.show",
+        "summary": "Display the specified resource",
+        "tags": [
+          "OrderItem"
+        ],
+        "parameters": [
+          {
+            "name": "orderItem",
+            "in": "path",
+            "required": true,
+            "description": "The order item orderitemid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/OrderItemResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          }
+        }
+      },
+      "put": {
+        "operationId": "order-items.update",
+        "summary": "Update the specified resource in storage",
+        "tags": [
+          "OrderItem"
+        ],
+        "parameters": [
+          {
+            "name": "orderItem",
+            "in": "path",
+            "required": true,
+            "description": "The order item orderitemid",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/OrderItemResource"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "operationId": "products.index",
@@ -501,6 +945,146 @@
           }
         }
       }
+    },
+    "/redeem-codes": {
+      "post": {
+        "operationId": "redeemCode.store",
+        "summary": "Store a newly created redeem code",
+        "tags": [
+          "RedeemCode"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreRedeemCodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "amount"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      }
+    },
+    "/redeem-codes/redeem": {
+      "post": {
+        "operationId": "redeemCode.redeem",
+        "summary": "Redeem a code to increase customer credit",
+        "tags": [
+          "RedeemCode"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RedeemCodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "string"
+                        },
+                        "usedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "usedByCustomerID": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "amount",
+                        "usedAt",
+                        "usedByCustomerID"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ModelNotFoundException"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationException"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -577,6 +1161,205 @@
         ],
         "title": "CustomerResource"
       },
+      "DeliveryStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "delivered"
+        ],
+        "title": "DeliveryStatus"
+      },
+      "LengthAwarePaginator": {
+        "type": "object",
+        "properties": {
+          "current_page": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "string"
+          },
+          "first_page_url": {
+            "type": "string"
+          },
+          "from": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "last_page": {
+            "type": "integer"
+          },
+          "last_page_url": {
+            "type": "string"
+          },
+          "links": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "next_page_url": {
+            "type": "string"
+          },
+          "path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "per_page": {
+            "type": "integer"
+          },
+          "prev_page_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "to": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "current_page",
+          "data",
+          "first_page_url",
+          "from",
+          "last_page",
+          "last_page_url",
+          "links",
+          "next_page_url",
+          "path",
+          "per_page",
+          "prev_page_url",
+          "to",
+          "total"
+        ],
+        "title": "LengthAwarePaginator"
+      },
+      "OrderItemResource": {
+        "type": "object",
+        "properties": {
+          "orderItemID": {
+            "type": "integer"
+          },
+          "orderID": {
+            "type": "integer"
+          },
+          "productID": {
+            "type": "integer"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "itemTotalPrice": {
+            "type": "string"
+          },
+          "deliveryStatus": {
+            "$ref": "#/components/schemas/DeliveryStatus"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "product": {
+            "$ref": "#/components/schemas/ProductResource"
+          }
+        },
+        "required": [
+          "orderItemID",
+          "orderID",
+          "productID",
+          "quantity",
+          "itemTotalPrice",
+          "deliveryStatus",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "OrderItemResource"
+      },
+      "OrderResource": {
+        "type": "object",
+        "properties": {
+          "orderID": {
+            "type": "integer"
+          },
+          "customerID": {
+            "type": "integer"
+          },
+          "totalPrice": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string"
+          },
+          "orderStatus": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "isPaid": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/CustomerResource"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemResource"
+            }
+          }
+        },
+        "required": [
+          "orderID",
+          "customerID",
+          "totalPrice",
+          "dueDate",
+          "orderStatus",
+          "isPaid",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "OrderResource"
+      },
+      "OrderStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "processing",
+          "completed",
+          "cancelled"
+        ],
+        "title": "OrderStatus"
+      },
       "ProductResource": {
         "type": "object",
         "properties": {
@@ -604,11 +1387,11 @@
           "reorderQuantity": {
             "type": "integer"
           },
-          "image_url": {
-            "type": [
-              "string",
-              "null"
-            ]
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "created_at": {
             "type": [
@@ -634,11 +1417,27 @@
           "currentQuantity",
           "reorderLevel",
           "reorderQuantity",
-          "image_url",
+          "images",
           "created_at",
           "updated_at"
         ],
         "title": "ProductResource"
+      },
+      "RedeemCodeRequest": {
+        "type": "object",
+        "properties": {
+          "customerID": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerID",
+          "code"
+        ],
+        "title": "RedeemCodeRequest"
       },
       "StoreCustomerRequest": {
         "type": "object",
@@ -666,6 +1465,10 @@
           },
           "zip_code": {
             "type": "string"
+          },
+          "credit_limit": {
+            "type": "number",
+            "minimum": 0
           }
         },
         "required": [
@@ -676,9 +1479,48 @@
           "house_no",
           "street_name",
           "city",
-          "zip_code"
+          "zip_code",
+          "credit_limit"
         ],
         "title": "StoreCustomerRequest"
+      },
+      "StoreOrderRequest": {
+        "type": "object",
+        "properties": {
+          "customerID": {
+            "type": "integer"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productID": {
+                  "type": "integer"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "productID",
+                "quantity"
+              ]
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "customerID",
+          "dueDate",
+          "items"
+        ],
+        "title": "StoreOrderRequest"
       },
       "StoreProductRequest": {
         "type": "object",
@@ -707,14 +1549,19 @@
           "reorderQuantity": {
             "type": "integer"
           },
-          "image": {
+          "images": {
             "type": [
-              "string",
+              "array",
               "null"
             ],
-            "format": "binary",
-            "contentMediaType": "application/octet-stream",
-            "maxLength": 2048
+            "items": {
+              "type": "string",
+              "format": "binary",
+              "contentMediaType": "application/octet-stream",
+              "maxLength": 2048
+            },
+            "minItems": 3,
+            "maxItems": 4
           }
         },
         "required": [
@@ -727,6 +1574,22 @@
           "reorderQuantity"
         ],
         "title": "StoreProductRequest"
+      },
+      "StoreRedeemCodeRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "amount"
+        ],
+        "title": "StoreRedeemCodeRequest"
       },
       "UpdateCustomerRequest": {
         "type": "object",
@@ -770,6 +1633,31 @@
         },
         "title": "UpdateCustomerRequest"
       },
+      "UpdateOrderItemRequest": {
+        "type": "object",
+        "properties": {
+          "deliveryStatus": {
+            "$ref": "#/components/schemas/DeliveryStatus"
+          }
+        },
+        "required": [
+          "deliveryStatus"
+        ],
+        "title": "UpdateOrderItemRequest"
+      },
+      "UpdateOrderRequest": {
+        "type": "object",
+        "properties": {
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isPaid": {
+            "type": "boolean"
+          }
+        },
+        "title": "UpdateOrderRequest"
+      },
       "UpdateProductRequest": {
         "type": "object",
         "properties": {
@@ -794,20 +1682,25 @@
           },
           "reorderLevel": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 1
           },
           "reorderQuantity": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 1
           },
-          "image": {
+          "images": {
             "type": [
-              "string",
+              "array",
               "null"
             ],
-            "format": "binary",
-            "contentMediaType": "application/octet-stream",
-            "maxLength": 2048
+            "items": {
+              "type": "string",
+              "format": "binary",
+              "contentMediaType": "application/octet-stream",
+              "maxLength": 2048
+            },
+            "minItems": 3,
+            "maxItems": 4
           }
         },
         "title": "UpdateProductRequest"
