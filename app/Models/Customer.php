@@ -14,6 +14,7 @@ class Customer extends Model
 
     public function orders()
     {
+        // Link customer to their orders.
         return $this->hasMany(Order::class, 'customerID', 'customerID');
     }
 }

@@ -13,23 +13,26 @@ use App\Services\CustomerService;
 
 class CustomerController extends Controller
 {
+    /**
+     * Inject customer service for create workflows.
+     */
     public function __construct(private CustomerService $customerService)
     {
     }
 
     /**
-     * Display a listing of the resource.
+     * List customers with pagination.
      */
     public function index(): JsonResponse
     {
         return response()->json([
             'status' => 'success',
-            'data' => CustomerResource::collection(Customer::all())
+            'data' => CustomerResource::collection(Customer::query()->paginate(10))
         ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new customer.
      */
     public function store(StoreCustomerRequest $request): JsonResponse
     {
@@ -41,7 +44,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a single customer.
      */
     public function show(Customer $customer): JsonResponse
     {
@@ -52,7 +55,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update customer details.
      */
     public function update(UpdateCustomerRequest $request, Customer $customer): JsonResponse
     {
@@ -65,7 +68,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a customer record.
      */
     public function destroy(Customer $customer): JsonResponse
     {

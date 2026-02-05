@@ -17,7 +17,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * List orders with related customer and items.
      */
     public function index(): JsonResponse
     {
@@ -29,7 +29,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Place a new order using validated items and credit checks.
      */
     public function store(StoreOrderRequest $request): JsonResponse
     {
@@ -41,7 +41,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a single order with related customer and items.
      */
     public function show(Order $order)
     {
@@ -53,7 +53,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update order fields such as due date or payment flag.
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
@@ -66,7 +66,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Cancel the specified order.
+     * Cancel an order before delivery and restore customer credit.
      */
     public function cancel(Order $order): JsonResponse
     {
@@ -79,7 +79,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete an order record.
      */
     public function destroy(Order $order)
     {

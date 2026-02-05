@@ -8,6 +8,9 @@ use Faker\Factory as Faker;
 
 class CustomerSeeder extends Seeder
 {
+    /**
+     * Seed customers with fake contact and credit data.
+     */
     public function run(): void
     {
         $faker = Faker::create();

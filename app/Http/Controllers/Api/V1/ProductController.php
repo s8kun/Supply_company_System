@@ -12,12 +12,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    /**
+     * Inject image service for product uploads.
+     */
     public function __construct(protected ImageService $imageService)
     {
     }
 
     /**
-     * Display a listing of the resource.
+     * List products with pagination.
      */
     public function index()
     {
@@ -28,7 +31,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a product and upload optional image array.
      */
     public function store(StoreProductRequest $request)
     {
@@ -53,7 +56,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a single product.
      */
     public function show(Product $product)
     {
@@ -64,7 +67,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update product details and replace images if provided.
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
@@ -93,7 +96,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a product and its stored images.
      */
     public function destroy(Product $product)
     {

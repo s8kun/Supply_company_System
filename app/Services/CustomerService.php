@@ -7,6 +7,9 @@ use App\Models\Customer;
 
 class CustomerService
 {
+    /**
+     * Create and persist a new customer from validated data.
+     */
     public function createNewCustomer(StoreCustomerRequest $request, Customer $customer): Customer
     {
         $customer->fill($request->validated());

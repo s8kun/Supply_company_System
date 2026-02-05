@@ -24,6 +24,7 @@ class RedeemCode extends Model
 
     public function customer()
     {
+        // Link redeemed code to the customer who used it.
         return $this->belongsTo(Customer::class, 'usedByCustomerID', 'customerID');
     }
 }

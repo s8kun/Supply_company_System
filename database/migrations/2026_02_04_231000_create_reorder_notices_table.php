@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     /**
-     * Run the migrations.
+     * Create reorder notices table.
      */
     public function up(): void
     {
@@ -24,7 +24,7 @@ return new class extends Migration {
     }
 
     /**
-     * Reverse the migrations.
+     * Drop reorder notices table.
      */
     public function down(): void
     {

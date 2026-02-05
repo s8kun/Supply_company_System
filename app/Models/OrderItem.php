@@ -22,11 +22,13 @@ class OrderItem extends Model
 
     public function order()
     {
+        // Link item to its parent order.
         return $this->belongsTo(Order::class, 'orderID', 'orderID');
     }
 
     public function product()
     {
+        // Link item to its product.
         return $this->belongsTo(Product::class, 'productID', 'productID');
     }
 }

@@ -13,18 +13,27 @@ use Illuminate\Validation\ValidationException;
 
 class OrderService
 {
+    /**
+     * Inject pricing and credit services for order workflows.
+     */
     public function __construct(
         private PricingService $pricingService,
-        private CreditService $creditService
+        private CreditService  $creditService
     )
     {
     }
 
+    /**
+     * Backward-compatible alias for placing a new order.
+     */
     public function createOrder(array $data): Order
     {
         return $this->placeOrder($data);
     }
 
+    /**
+     * Create an order, compute totals, and debit customer credit.
+     */
     public function placeOrder(array $data): Order
     {
         return DB::transaction(function () use ($data): Order {
@@ -51,14 +60,14 @@ class OrderService
                     ]);
                 }
 
-                $quantity = (int) $item['quantity'];
+                $quantity = (int)$item['quantity'];
                 if ($product->currentQuantity < $quantity) {
                     throw ValidationException::withMessages([
                         'items' => ["Product {$product->productID} does not have enough stock."],
                     ]);
                 }
 
-                $itemTotal = $this->pricingService->calculateItemTotal((float) $product->sellPrice, $quantity);
+                $itemTotal = $this->pricingService->calculateItemTotal((float)$product->sellPrice, $quantity);
                 $orderTotal += $itemTotal;
 
                 $itemsToCreate[] = [
@@ -69,7 +78,7 @@ class OrderService
                 ];
             }
 
-            if ($orderTotal > (float) $customer->credit_limit) {
+            if ($orderTotal > (float)$customer->credit_limit) {
                 throw ValidationException::withMessages([
                     'customerID' => ['Credit limit exceeded for this order.'],
                 ]);
@@ -90,6 +99,9 @@ class OrderService
         });
     }
 
+    /**
+     * Cancel an order before delivery and restore customer credit.
+     */
     public function cancelOrder(Order $order): Order
     {
         return DB::transaction(function () use ($order): Order {

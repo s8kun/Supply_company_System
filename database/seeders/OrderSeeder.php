@@ -13,6 +13,9 @@ use Faker\Factory as Faker;
 
 class OrderSeeder extends Seeder
 {
+    /**
+     * Seed orders, items, and delivery status for testing.
+     */
     public function run(): void
     {
         $faker = Faker::create();

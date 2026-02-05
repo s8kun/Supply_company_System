@@ -9,6 +9,9 @@ use Faker\Factory as Faker;
 
 class RedeemCodeSeeder extends Seeder
 {
+    /**
+     * Seed a set of unused redeem codes.
+     */
     public function run(): void
     {
         $faker = Faker::create();

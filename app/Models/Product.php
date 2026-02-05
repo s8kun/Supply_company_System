@@ -25,6 +25,7 @@ class Product extends Model
 
     public function reorderNotices()
     {
+        // Link product to its reorder notices.
         return $this->hasMany(ReorderNotice::class, 'productID', 'productID');
     }
 }

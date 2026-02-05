@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Add images JSON column and remove legacy image column.
      */
     public function up(): void
     {
@@ -31,7 +31,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Restore legacy image column and remove images JSON.
      */
     public function down(): void
     {

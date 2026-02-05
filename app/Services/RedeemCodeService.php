@@ -10,10 +10,16 @@ use Illuminate\Validation\ValidationException;
 
 class RedeemCodeService
 {
+    /**
+     * Inject credit service for balance top-ups.
+     */
     public function __construct(private CreditService $creditService)
     {
     }
 
+    /**
+     * Create a redeem code with a fixed amount.
+     */
     public function createCode(float $amount, ?string $code = null): RedeemCode
     {
         $codeValue = $code ?: $this->generateUniqueCode();
@@ -24,6 +30,9 @@ class RedeemCodeService
         ]);
     }
 
+    /**
+     * Redeem a single-use code and add its amount to customer credit.
+     */
     public function redeemCode(Customer $customer, string $code): RedeemCode
     {
         return DB::transaction(function () use ($customer, $code): RedeemCode {
@@ -60,6 +69,9 @@ class RedeemCodeService
         });
     }
 
+    /**
+     * Generate a short unique code for vouchers.
+     */
     private function generateUniqueCode(): string
     {
         $attempts = 0;

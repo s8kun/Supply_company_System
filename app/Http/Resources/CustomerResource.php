@@ -9,7 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CustomerResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Shape the customer payload for API responses.
      *
      * @return array<string, mixed>
      */

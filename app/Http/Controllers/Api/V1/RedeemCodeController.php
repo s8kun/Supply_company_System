@@ -11,12 +11,15 @@ use Illuminate\Http\JsonResponse;
 
 class RedeemCodeController extends Controller
 {
+    /**
+     * Inject redeem code service for voucher workflows.
+     */
     public function __construct(private RedeemCodeService $redeemCodeService)
     {
     }
 
     /**
-     * Store a newly created redeem code.
+     * Create a new redeem code with a fixed amount.
      */
     public function store(StoreRedeemCodeRequest $request): JsonResponse
     {
@@ -36,7 +39,7 @@ class RedeemCodeController extends Controller
     }
 
     /**
-     * Redeem a code to increase customer credit.
+     * Redeem a code and top up customer credit.
      */
     public function redeem(RedeemCodeRequest $request): JsonResponse
     {

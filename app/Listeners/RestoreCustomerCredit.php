@@ -8,10 +8,16 @@ use App\Services\CreditService;
 
 class RestoreCustomerCredit
 {
+    /**
+     * Inject credit service to restore balances.
+     */
     public function __construct(private CreditService $creditService)
     {
     }
 
+    /**
+     * Restore customer credit after an order is cancelled.
+     */
     public function handle(OrderCancelled $event): void
     {
         $order = $event->order->refresh();

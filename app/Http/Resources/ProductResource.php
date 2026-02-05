@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class ProductResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Shape the product payload for API responses.
      *
      * @return array<string, mixed>
      */

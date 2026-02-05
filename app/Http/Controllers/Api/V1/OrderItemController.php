@@ -12,12 +12,15 @@ use Illuminate\Http\JsonResponse;
 
 class OrderItemController extends Controller
 {
+    /**
+     * Inject order item service for delivery workflows.
+     */
     public function __construct(private OrderItemService $orderItemService)
     {
     }
 
     /**
-     * Display a listing of the resource.
+     * List order items with related order and product.
      */
     public function index(): JsonResponse
     {
@@ -30,7 +33,7 @@ class OrderItemController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a single order item with its relations.
      */
     public function show(OrderItem $orderItem): JsonResponse
     {
@@ -42,7 +45,7 @@ class OrderItemController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update delivery status for an order item.
      */
     public function update(UpdateOrderItemRequest $request, OrderItem $orderItem): JsonResponse
     {

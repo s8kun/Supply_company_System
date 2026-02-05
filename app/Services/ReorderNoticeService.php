@@ -7,6 +7,9 @@ use App\Models\ReorderNotice;
 
 class ReorderNoticeService
 {
+    /**
+     * Create a reorder notice if stock is at or below the reorder level.
+     */
     public function createIfNeeded(Product $product): ?ReorderNotice
     {
         if ($product->currentQuantity > $product->reorderLevel) {

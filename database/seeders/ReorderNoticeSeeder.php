@@ -8,6 +8,9 @@ use Illuminate\Database\Seeder;
 
 class ReorderNoticeSeeder extends Seeder
 {
+    /**
+     * Seed reorder notices for products below the reorder level.
+     */
     public function run(): void
     {
         $reorderNoticeService = app(ReorderNoticeService::class);

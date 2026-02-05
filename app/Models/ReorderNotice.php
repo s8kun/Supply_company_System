@@ -22,6 +22,7 @@ class ReorderNotice extends Model
 
     public function product()
     {
+        // Link notice to its product.
         return $this->belongsTo(Product::class, 'productID', 'productID');
     }
 }

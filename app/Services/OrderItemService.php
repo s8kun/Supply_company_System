@@ -11,10 +11,16 @@ use Illuminate\Validation\ValidationException;
 
 class OrderItemService
 {
+    /**
+     * Inject reorder notice service for stock alerts.
+     */
     public function __construct(private ReorderNoticeService $reorderNoticeService)
     {
     }
 
+    /**
+     * Mark an order item as delivered, adjust stock, and update order status.
+     */
     public function updateDeliveryStatus(OrderItem $orderItem, DeliveryStatus $status): OrderItem
     {
         return DB::transaction(function () use ($orderItem, $status): OrderItem {

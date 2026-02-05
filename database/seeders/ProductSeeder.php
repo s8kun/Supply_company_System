@@ -8,6 +8,9 @@ use Faker\Factory as Faker;
 
 class ProductSeeder extends Seeder
 {
+    /**
+     * Seed products with prices, stock, and placeholder images.
+     */
     public function run(): void
     {
         $faker = Faker::create();

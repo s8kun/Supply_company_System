@@ -10,6 +10,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
+// Generate reorder notices for products at or below reorder level.
 Artisan::command('reorder:generate', function (ReorderNoticeService $reorderNoticeService) {
     Product::query()
         ->whereColumn('currentQuantity', '<=', 'reorderLevel')
@@ -21,4 +22,5 @@ Artisan::command('reorder:generate', function (ReorderNoticeService $reorderNoti
         }, 'productID');
 })->purpose('Generate reorder notices for low stock products');
 
+// Run reorder notice generation on a schedule.
 Schedule::command('reorder:generate')->hourly();

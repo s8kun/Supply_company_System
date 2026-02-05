@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class OrderItemResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Shape the order item payload for API responses.
      *
      * @return array<string, mixed>
      */

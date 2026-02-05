@@ -10,6 +10,9 @@ class OrderCancelled
 {
     use Dispatchable, SerializesModels;
 
+    /**
+     * Carry the cancelled order payload.
+     */
     public function __construct(public Order $order)
     {
     }
