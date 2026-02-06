@@ -593,7 +593,7 @@
                     "message": {
                       "type": "string",
                       "enum": [
-                        "Customer profile is required."
+                        "No customer profile linked to this account."
                       ]
                     }
                   },
@@ -1573,7 +1573,7 @@
                     "message": {
                       "type": "string",
                       "enum": [
-                        "Customer profile is required."
+                        "No customer profile linked to this account."
                       ]
                     }
                   },
@@ -1851,10 +1851,6 @@
           },
           "password": {
             "type": "string"
-          },
-          "device_name": {
-            "type": "string",
-            "maxLength": 255
           }
         },
         "required": [
