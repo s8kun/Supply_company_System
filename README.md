@@ -72,6 +72,14 @@ php artisan serve
 http://localhost:8000/api/v1
 ```
 
+## المصادقة والصلاحيات
+- أغلب المسارات محمية بـ Sanctum وتحتاج هيدر:
+```
+Authorization: Bearer <token>
+```
+- تحصل على التوكن من `/auth/register` أو `/auth/login`.
+- بعض المسارات تتطلب أدوار محددة مثل `admin` و`supervisor` و`customer`.
+
 ## تشغيل الجدولة (Reorder Notices)
 النظام ينشئ إشعارات إعادة الطلب عبر جدولة دورية:
 ```
@@ -88,6 +96,7 @@ php artisan schedule:work
 tests/TestApi
 ```
 يمكن فتحها في أي HTTP client يدعم ملفات `.http`.
+ابدأ بـ `tests/TestApi/AuthApi.http` للحصول على التوكن ثم استخدمه في باقي الملفات.
 
 ## توثيق الـ API
 التوثيق الكامل موجود هنا:

@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:8000/api/v1
+@reorderNoticeId = 1
+
+### List reorder notices
+GET {{baseUrl}}/reorder-notices
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Show reorder notice
+GET {{baseUrl}}/reorder-notices/{{reorderNoticeId}}
+Accept: application/json
+Authorization: Bearer {{token}}

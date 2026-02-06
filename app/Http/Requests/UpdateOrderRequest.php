@@ -26,4 +26,17 @@ class UpdateOrderRequest extends FormRequest
             'isPaid' => 'sometimes|required|boolean',
         ];
     }
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'dueDate.required' => 'حقل تاريخ الاستحقاق مطلوب.',
+            'isPaid.required' => 'حقل حالة الدفع مطلوب.',
+        ];
+    }
 }

@@ -4,11 +4,13 @@
 ### List customers
 GET {{baseUrl}}/customers
 Accept: application/json
+Authorization: Bearer {{token}}
 
 ### Create customer
 POST {{baseUrl}}/customers
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "first_name": "Ahmed",
@@ -25,11 +27,13 @@ Accept: application/json
 ### Show customer
 GET {{baseUrl}}/customers/{{customerId}}
 Accept: application/json
+Authorization: Bearer {{token}}
 
 ### Update customer
 PUT {{baseUrl}}/customers/{{customerId}}
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "phone": "0559998888",
@@ -39,3 +43,4 @@ Accept: application/json
 ### Delete customer
 DELETE {{baseUrl}}/customers/{{customerId}}
 Accept: application/json
+Authorization: Bearer {{token}}

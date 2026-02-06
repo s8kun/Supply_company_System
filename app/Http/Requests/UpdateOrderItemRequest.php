@@ -27,4 +27,16 @@ class UpdateOrderItemRequest extends FormRequest
             'deliveryStatus' => ['required', new Enum(DeliveryStatus::class)],
         ];
     }
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'deliveryStatus.required' => 'حقل حالة التوصيل مطلوب.',
+        ];
+    }
 }

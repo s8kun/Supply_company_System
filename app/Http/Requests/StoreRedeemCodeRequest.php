@@ -26,4 +26,17 @@ class StoreRedeemCodeRequest extends FormRequest
             'amount' => 'required|numeric|min:1',
         ];
     }
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'amount.required' => 'حقل المبلغ مطلوب.',
+            'code.unique' => 'حقل الكود مستخدم مسبقا.',
+        ];
+    }
 }

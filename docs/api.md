@@ -18,6 +18,8 @@ Send tokens on protected routes:
 Authorization: Bearer <token>
 ```
 
+Register/login responses include `data.token`.
+
 ### Register
 `POST /auth/register`
 
@@ -49,6 +51,12 @@ Body (JSON):
   "password": "password123"
 }
 ```
+
+### Profile
+`GET /auth/me`
+
+### Logout
+`POST /auth/logout`
 
 All successful responses follow this shape:
 ```json
@@ -116,7 +124,7 @@ Body (JSON, partial allowed):
 
 ## Products
 
-> Requires auth. Create/update/delete are restricted to supervisor/admin.
+> Requires auth. Create: supervisor/admin. Update/Delete: admin only.
 
 ### List products
 `GET /products`
@@ -165,6 +173,12 @@ If you send `images[]`, existing images are replaced.
 ## Orders
 
 > Requires auth. Customers can create/cancel their own orders. Staff can update orders.
+
+Notes:
+- Customers see only their own orders in list/show.
+- Create/cancel requires role: customer.
+- Update requires role: admin/supervisor.
+- Delete requires role: admin.
 
 ### List orders
 `GET /orders`
@@ -247,6 +261,8 @@ Body (JSON):
 }
 ```
 
+You can optionally pass a custom `code`.
+
 ### Redeem code
 `POST /redeem-codes/redeem`
 
@@ -260,4 +276,15 @@ Body (JSON):
 
 Notes:
 - Codes are single-use.
+- `customerID` is resolved from the authenticated customer.
 - Reusing a code returns a validation error.
+
+## Reorder Notices
+
+> Requires role: admin
+
+### List reorder notices
+`GET /reorder-notices`
+
+### Show reorder notice
+`GET /reorder-notices/{reorderNoticeID}`

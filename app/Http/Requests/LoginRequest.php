@@ -26,4 +26,17 @@ class LoginRequest extends FormRequest
             'password' => 'required|string',
         ];
     }
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'حقل الايميل مطلوب.',
+            'password.required' => 'حقل كلمة المرور مطلوب.',
+        ];
+    }
 }

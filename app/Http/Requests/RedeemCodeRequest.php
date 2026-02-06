@@ -43,4 +43,18 @@ class RedeemCodeRequest extends FormRequest
             'code' => 'required|string',
         ];
     }
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'customerID.required' => 'حقل رقم العميل مطلوب.',
+            'customerID.exists' => 'رقم العميل غير موجود.',
+            'code.required' => 'حقل الكود مطلوب.',
+        ];
+    }
 }

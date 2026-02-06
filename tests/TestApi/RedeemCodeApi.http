@@ -5,6 +5,7 @@
 POST {{baseUrl}}/redeem-codes
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "amount": 150.00
@@ -14,6 +15,7 @@ Accept: application/json
 POST {{baseUrl}}/redeem-codes/redeem
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "customerID": {{customerId}},
@@ -24,6 +26,7 @@ Accept: application/json
 POST {{baseUrl}}/redeem-codes/redeem
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "customerID": {{customerId}},

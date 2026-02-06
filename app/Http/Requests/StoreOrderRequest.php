@@ -46,4 +46,22 @@ class StoreOrderRequest extends FormRequest
             'items.*.quantity' => 'required|integer|min:1',
         ];
     }
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'customerID.required' => 'حقل رقم العميل مطلوب.',
+            'customerID.exists' => 'رقم العميل غير موجود.',
+            'dueDate.required' => 'حقل تاريخ الاستحقاق مطلوب.',
+            'items.required' => 'حقل العناصر مطلوب.',
+            'items.*.productID.required' => 'حقل المنتج مطلوب.',
+            'items.*.productID.exists' => 'المنتج غير موجود.',
+            'items.*.quantity.required' => 'حقل الكمية مطلوب.',
+        ];
+    }
 }

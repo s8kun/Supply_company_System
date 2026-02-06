@@ -33,4 +33,23 @@ class StoreProductRequest extends FormRequest
             'images.*' => 'image|max:2048',
         ];
     }
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'حقل اسم المنتج مطلوب.',
+            'name.unique' => 'حقل اسم المنتج مستخدم مسبقا.',
+            'description.required' => 'حقل الوصف مطلوب.',
+            'costPrice.required' => 'حقل سعر التكلفة مطلوب.',
+            'sellPrice.required' => 'حقل سعر البيع مطلوب.',
+            'currentQuantity.required' => 'حقل الكمية الحالية مطلوب.',
+            'reorderLevel.required' => 'حقل حد اعادة الطلب مطلوب.',
+            'reorderQuantity.required' => 'حقل كمية اعادة الطلب مطلوب.',
+        ];
+    }
 }

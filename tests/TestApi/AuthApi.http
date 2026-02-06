@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:8000/api/v1
+@customerEmail = customer@example.com
+@customerPassword = password123
+
+### Register customer (returns token)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Customer Name",
+  "email": "{{customerEmail}}",
+  "password": "{{customerPassword}}",
+  "password_confirmation": "{{customerPassword}}",
+  "first_name": "Ahmed",
+  "middle_name": "Ali",
+  "last_name": "Hassan",
+  "house_no": "12",
+  "street_name": "King Road",
+  "city": "Riyadh",
+  "zip_code": "11564",
+  "phone": "0551234567"
+}
+
+> {% client.global.set("token", response.body.data.token); %}
+
+### Login (existing customer)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "{{customerEmail}}",
+  "password": "{{customerPassword}}"
+}
+
+> {% client.global.set("token", response.body.data.token); %}
+
+### Me
+GET {{baseUrl}}/auth/me
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Logout
+POST {{baseUrl}}/auth/logout
+Accept: application/json
+Authorization: Bearer {{token}}

@@ -5,11 +5,13 @@
 ### List orders
 GET {{baseUrl}}/orders
 Accept: application/json
+Authorization: Bearer {{token}}
 
 ### Create order
 POST {{baseUrl}}/orders
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "customerID": {{customerId}},
@@ -23,11 +25,13 @@ Accept: application/json
 ### Show order
 GET {{baseUrl}}/orders/{{orderId}}
 Accept: application/json
+Authorization: Bearer {{token}}
 
 ### Update order
 PATCH {{baseUrl}}/orders/{{orderId}}
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "dueDate": "2026-02-12"
@@ -36,7 +40,9 @@ Accept: application/json
 ### Delete order
 DELETE {{baseUrl}}/orders/{{orderId}}
 Accept: application/json
+Authorization: Bearer {{token}}
 
 ### Cancel order
 POST {{baseUrl}}/orders/{{orderId}}/cancel
 Accept: application/json
+Authorization: Bearer {{token}}
