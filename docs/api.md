@@ -5,6 +5,51 @@ Base URL:
 http://localhost:8000/api/v1
 ```
 
+## Authentication
+
+Use Sanctum Bearer tokens for all protected endpoints.
+
+Public endpoints:
+- `POST /auth/register`
+- `POST /auth/login`
+
+Send tokens on protected routes:
+```
+Authorization: Bearer <token>
+```
+
+### Register
+`POST /auth/register`
+
+Body (JSON):
+```json
+{
+  "name": "Customer Name",
+  "email": "customer@example.com",
+  "password": "password123",
+  "password_confirmation": "password123",
+  "first_name": "Ahmed",
+  "middle_name": "Ali",
+  "last_name": "Hassan",
+  "house_no": "12",
+  "street_name": "King Road",
+  "city": "Riyadh",
+  "zip_code": "11564",
+  "phone": "0551234567"
+}
+```
+
+### Login
+`POST /auth/login`
+
+Body (JSON):
+```json
+{
+  "email": "customer@example.com",
+  "password": "password123"
+}
+```
+
 All successful responses follow this shape:
 ```json
 {
@@ -28,6 +73,8 @@ DeliveryStatus:
 - `delivered`
 
 ## Customers
+
+> Requires role: admin
 
 ### List customers
 `GET /customers`
@@ -68,6 +115,8 @@ Body (JSON, partial allowed):
 `DELETE /customers/{customerID}`
 
 ## Products
+
+> Requires auth. Create/update/delete are restricted to supervisor/admin.
 
 ### List products
 `GET /products`
@@ -114,6 +163,8 @@ If you send `images[]`, existing images are replaced.
 `DELETE /products/{productID}`
 
 ## Orders
+
+> Requires auth. Customers can create/cancel their own orders. Staff can update orders.
 
 ### List orders
 `GET /orders`
@@ -164,6 +215,8 @@ Rules:
 
 ## Order Items
 
+> Requires role: supervisor/admin
+
 ### List order items
 `GET /order-items`
 
@@ -181,6 +234,8 @@ Body (JSON):
 ```
 
 ## Redeem Codes
+
+> Create requires role: supervisor/admin. Redeem is for customer only.
 
 ### Create redeem code
 `POST /redeem-codes`

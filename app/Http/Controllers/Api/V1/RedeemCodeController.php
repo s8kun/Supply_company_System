@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RedeemCodeRequest;
 use App\Http\Requests\StoreRedeemCodeRequest;
 use App\Models\Customer;
+use App\Models\User;
 use App\Services\RedeemCodeService;
 use Illuminate\Http\JsonResponse;
 
@@ -44,7 +45,20 @@ class RedeemCodeController extends Controller
     public function redeem(RedeemCodeRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $customer = Customer::query()->findOrFail($data['customerID']);
+        $user = $request->user();
+
+        if ($user && $user->role === User::ROLE_CUSTOMER) {
+            if (!$user->customer) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'No customer profile linked to this account.',
+                ], 403);
+            }
+            $customer = $user->customer;
+        } else {
+            $customer = Customer::query()->findOrFail($data['customerID']);
+        }
+
         $redeemCode = $this->redeemCodeService->redeemCode($customer, $data['code']);
 
         return response()->json([

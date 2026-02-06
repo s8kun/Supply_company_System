@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ImageService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -22,7 +23,7 @@ class ProductController extends Controller
     /**
      * List products with pagination.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json([
             'status' => 'success',
@@ -33,7 +34,7 @@ class ProductController extends Controller
     /**
      * Create a product and upload optional image array.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): JsonResponse
     {
         $data = $request->validated();
 
@@ -47,7 +48,7 @@ class ProductController extends Controller
             unset($data['images']);
         }
 
-        $product = Product::create($data);
+        $product = Product::query()->create($data);
 
         return response()->json([
             'status' => 'success',
@@ -58,7 +59,7 @@ class ProductController extends Controller
     /**
      * Show a single product.
      */
-    public function show(Product $product)
+    public function show(Product $product): JsonResponse
     {
         return response()->json([
             'status' => 'success',
@@ -69,7 +70,7 @@ class ProductController extends Controller
     /**
      * Update product details and replace images if provided.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
         $data = $request->validated();
 
@@ -98,7 +99,7 @@ class ProductController extends Controller
     /**
      * Delete a product and its stored images.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): JsonResponse
     {
         foreach (($product->images ?? []) as $path) {
             $this->imageService->delete($path);

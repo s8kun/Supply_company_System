@@ -2,10 +2,27 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOrderRequest extends FormRequest
 {
+    /**
+     * Force customerID to the authenticated customer's record.
+     */
+    protected function prepareForValidation(): void
+    {
+        $user = $this->user();
+
+        if (!$user || $user->role !== User::ROLE_CUSTOMER) {
+            return;
+        }
+
+        if ($user->customer) {
+            $this->merge(['customerID' => $user->customer->customerID]);
+        }
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */
