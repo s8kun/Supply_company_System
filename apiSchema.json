@@ -1,2430 +1,2447 @@
 {
-  "openapi": "3.1.0",
-  "info": {
-    "title": "SupplyCompany",
-    "version": "1.0.0",
-    "description": "API documentation"
-  },
-  "servers": [
-    {
-      "url": "http://127.0.0.1:8000/api/v1"
-    }
-  ],
-  "paths": {
-    "/auth/register": {
-      "post": {
-        "operationId": "auth.register",
-        "summary": "Register a customer user and their customer profile",
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
+    "openapi": "3.1.0",
+    "info": {
+        "title": "SupplyCompany",
+        "version": "1.0.0",
+        "description": "API documentation"
     },
-    "/auth/login": {
-      "post": {
-        "operationId": "auth.login",
-        "summary": "Login and issue a Sanctum token",
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "user": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "email": {
-                              "type": "string"
-                            },
-                            "role": {
-                              "type": "string"
+    "servers": [
+        {
+            "url": "http://localhost/api/v1"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "operationId": "auth.register",
+                "summary": "Register a customer user and their customer profile",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
                             }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "email",
-                            "role"
-                          ]
-                        },
-                        "customer": {
-                          "anyOf": [
-                            {
-                              "$ref": "#/components/schemas/CustomerResource"
-                            },
-                            {
-                              "type": "null"
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
                             }
-                          ]
-                        },
-                        "token": {
-                          "type": "string"
                         }
-                      },
-                      "required": [
-                        "user",
-                        "customer",
-                        "token"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "error"
-                      ]
                     },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Invalid credentials."
-                      ]
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
                     }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
                 }
-              }
             }
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
-    },
-    "/auth/logout": {
-      "post": {
-        "operationId": "auth.logout",
-        "summary": "Logout the current token",
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "null"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          }
-        }
-      }
-    },
-    "/auth/me": {
-      "get": {
-        "operationId": "auth.me",
-        "summary": "Return the authenticated user profile",
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "user": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "email": {
-                              "type": "string"
-                            },
-                            "role": {
-                              "type": "string"
+        },
+        "/auth/login": {
+            "post": {
+                "operationId": "auth.login",
+                "summary": "Login and issue a Sanctum token",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
                             }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "email",
-                            "role"
-                          ]
-                        },
-                        "customer": {
-                          "anyOf": [
-                            {
-                              "$ref": "#/components/schemas/CustomerResource"
-                            },
-                            {
-                              "type": "null"
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "user": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "email": {
+                                                            "type": "string"
+                                                        },
+                                                        "role": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "id",
+                                                        "name",
+                                                        "email",
+                                                        "role"
+                                                    ]
+                                                },
+                                                "customer": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/CustomerResource"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "token": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "user",
+                                                "customer",
+                                                "token"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
                             }
-                          ]
                         }
-                      },
-                      "required": [
-                        "user",
-                        "customer"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          }
-        }
-      }
-    },
-    "/customers": {
-      "get": {
-        "operationId": "customers.index",
-        "summary": "List customers with pagination",
-        "tags": [
-          "Customer"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
                     },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/CustomerResource"
-                      }
+                    "401": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Invalid credentials."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
                     }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
                 }
-              }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          }
-        }
-      },
-      "post": {
-        "operationId": "customers.store",
-        "summary": "Create a new customer",
-        "tags": [
-          "Customer"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoreCustomerRequest"
-              }
-            }
-          }
         },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
+        "/auth/logout": {
+            "post": {
+                "operationId": "auth.logout",
+                "summary": "Logout the current token",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
                     },
-                    "data": {
-                      "$ref": "#/components/schemas/CustomerResource"
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
                     }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
                 }
-              }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
-    },
-    "/customers/{customer}": {
-      "get": {
-        "operationId": "customers.show",
-        "summary": "Show a single customer",
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "required": true,
-            "description": "The customer customer id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/CustomerResource"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      },
-      "put": {
-        "operationId": "customers.update",
-        "summary": "Update customer details",
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "required": true,
-            "description": "The customer customer id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCustomerRequest"
-              }
-            }
-          }
         },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
+        "/auth/me": {
+            "get": {
+                "operationId": "auth.me",
+                "summary": "Return the authenticated user profile",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "user": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer"
+                                                        },
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "email": {
+                                                            "type": "string"
+                                                        },
+                                                        "role": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "id",
+                                                        "name",
+                                                        "email",
+                                                        "role"
+                                                    ]
+                                                },
+                                                "customer": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/CustomerResource"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "user",
+                                                "customer"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
                     },
-                    "data": {
-                      "$ref": "#/components/schemas/CustomerResource"
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
                     }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
                 }
-              }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "customers.destroy",
-        "summary": "Delete a customer record",
-        "tags": [
-          "Customer"
-        ],
-        "parameters": [
-          {
-            "name": "customer",
-            "in": "path",
-            "required": true,
-            "description": "The customer customer id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No content",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "null"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      }
-    },
-    "/orders": {
-      "get": {
-        "operationId": "order.index",
-        "summary": "List orders with related customer and items",
-        "tags": [
-          "Order"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/OrderResource"
-                      }
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "error"
-                      ]
-                    },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "No customer profile linked to this account."
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "order.store",
-        "summary": "Place a new order using validated items and credit checks",
-        "tags": [
-          "Order"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoreOrderRequest"
-              }
-            }
-          }
         },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
+        "/customers": {
+            "get": {
+                "operationId": "customers.index",
+                "summary": "List customers with pagination",
+                "tags": [
+                    "Customer"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
                     },
-                    "data": {
-                      "$ref": "#/components/schemas/OrderResource"
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
                     }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
                 }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "error"
-                      ]
+            },
+            "post": {
+                "operationId": "customers.store",
+                "summary": "Create a new customer",
+                "tags": [
+                    "Customer"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
                     },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Only customers can place orders."
-                      ]
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
                     }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
                 }
-              }
             }
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
-    },
-    "/orders/{order}": {
-      "get": {
-        "operationId": "order.show",
-        "summary": "Show a single order with related customer and items",
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "order",
-            "in": "path",
-            "required": true,
-            "description": "The order order id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
+        },
+        "/customers/{customer}": {
+            "get": {
+                "operationId": "customers.show",
+                "summary": "Show a single customer",
+                "tags": [
+                    "Customer"
+                ],
+                "parameters": [
                     {
-                      "type": "object",
-                      "properties": {
-                        "status": {
-                          "type": "string",
-                          "enum": [
-                            "success"
-                          ]
+                        "name": "customer",
+                        "in": "path",
+                        "required": true,
+                        "description": "The customer customer id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "customers.update",
+                "summary": "Update customer details",
+                "tags": [
+                    "Customer"
+                ],
+                "parameters": [
+                    {
+                        "name": "customer",
+                        "in": "path",
+                        "required": true,
+                        "description": "The customer customer id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "customers.destroy",
+                "summary": "Delete a customer record",
+                "tags": [
+                    "Customer"
+                ],
+                "parameters": [
+                    {
+                        "name": "customer",
+                        "in": "path",
+                        "required": true,
+                        "description": "The customer customer id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "operationId": "order.index",
+                "summary": "List orders with related customer and items",
+                "tags": [
+                    "Order"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/OrderResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "No customer profile linked to this account."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "order.store",
+                "summary": "Place a new order using validated items and credit checks",
+                "tags": [
+                    "Order"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreOrderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Only customers can place orders."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/orders/{order}": {
+            "get": {
+                "operationId": "order.show",
+                "summary": "Show a single order with related customer and items",
+                "tags": [
+                    "Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "required": true,
+                        "description": "The order order id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "success"
+                                                    ]
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/OrderResource"
+                                                }
+                                            },
+                                            "required": [
+                                                "status",
+                                                "data"
+                                            ]
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Forbidden."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "order.update",
+                "summary": "Update order fields such as due date or payment flag",
+                "tags": [
+                    "Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "required": true,
+                        "description": "The order order id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateOrderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "success"
+                                                    ]
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/OrderResource"
+                                                }
+                                            },
+                                            "required": [
+                                                "status",
+                                                "data"
+                                            ]
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Forbidden."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "order.destroy",
+                "summary": "Delete an order record",
+                "tags": [
+                    "Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "required": true,
+                        "description": "The order order id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "status": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "success"
+                                                    ]
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "Order deleted successfully"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "status",
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Forbidden."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/orders/{order}/cancel": {
+            "post": {
+                "operationId": "order.cancel",
+                "summary": "Cancel an order before delivery and restore customer credit",
+                "tags": [
+                    "Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "required": true,
+                        "description": "The order order id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/order-items": {
+            "get": {
+                "operationId": "order-items.index",
+                "summary": "List order items with related order and product",
+                "tags": [
+                    "OrderItem"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/OrderItemResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/order-items/{orderItem}": {
+            "get": {
+                "operationId": "order-items.show",
+                "summary": "Show a single order item with its relations",
+                "tags": [
+                    "OrderItem"
+                ],
+                "parameters": [
+                    {
+                        "name": "orderItem",
+                        "in": "path",
+                        "required": true,
+                        "description": "The order item order item id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderItemResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "order-items.update",
+                "summary": "Update delivery status for an order item",
+                "tags": [
+                    "OrderItem"
+                ],
+                "parameters": [
+                    {
+                        "name": "orderItem",
+                        "in": "path",
+                        "required": true,
+                        "description": "The order item order item id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateOrderItemRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderItemResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "operationId": "product.index",
+                "summary": "List products with pagination",
+                "tags": [
+                    "Product"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProductResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "product.store",
+                "summary": "Create a product and upload optional image array",
+                "tags": [
+                    "Product"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/products/{product}": {
+            "get": {
+                "operationId": "product.show",
+                "summary": "Show a single product",
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "description": "The product product id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "product.update",
+                "summary": "Update product details and replace images if provided",
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "description": "The product product id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "product.destroy",
+                "summary": "Delete a product and its stored images",
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "description": "The product product id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Product deleted successfully"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/redeem-codes": {
+            "post": {
+                "operationId": "redeemCode.store",
+                "summary": "Create a new redeem code with a fixed amount",
+                "tags": [
+                    "RedeemCode"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreRedeemCodeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "code": {
+                                                    "type": "string"
+                                                },
+                                                "amount": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "code",
+                                                "amount"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/redeem-codes/redeem": {
+            "post": {
+                "operationId": "redeemCode.redeem",
+                "summary": "Redeem a code and top up customer credit",
+                "tags": [
+                    "RedeemCode"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RedeemCodeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "code": {
+                                                    "type": "string"
+                                                },
+                                                "amount": {
+                                                    "type": "string"
+                                                },
+                                                "usedAt": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "format": "date-time"
+                                                },
+                                                "usedByCustomerId": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "code",
+                                                "amount",
+                                                "usedAt",
+                                                "usedByCustomerId"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "enum": [
+                                                "No customer profile linked to this account."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/reorder-notices": {
+            "get": {
+                "operationId": "reorderNotice.index",
+                "summary": "List reorder notices with pagination",
+                "tags": [
+                    "ReorderNotice"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ReorderNoticeResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/reorder-notices/{reorderNotice}": {
+            "get": {
+                "operationId": "reorderNotice.show",
+                "summary": "Show a single reorder notice",
+                "tags": [
+                    "ReorderNotice"
+                ],
+                "parameters": [
+                    {
+                        "name": "reorderNotice",
+                        "in": "path",
+                        "required": true,
+                        "description": "The reorder notice ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "success"
+                                            ]
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReorderNoticeResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CustomerResource": {
+                "type": "object",
+                "properties": {
+                    "customerId": {
+                        "type": "integer"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "middleName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                            "houseNo": {
+                                "type": "string"
+                            },
+                            "streetName": {
+                                "type": "string"
+                            },
+                            "city": {
+                                "type": "string"
+                            },
+                            "zipCode": {
+                                "type": "string"
+                            }
                         },
-                        "data": {
-                          "$ref": "#/components/schemas/OrderResource"
-                        }
-                      },
-                      "required": [
-                        "status",
-                        "data"
-                      ]
+                        "required": [
+                            "houseNo",
+                            "streetName",
+                            "city",
+                            "zipCode"
+                        ]
                     },
-                    {
-                      "type": "null"
+                    "phone": {
+                        "type": "string"
+                    },
+                    "creditLimit": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "error"
-                      ]
+                },
+                "required": [
+                    "customerId",
+                    "firstName",
+                    "middleName",
+                    "lastName",
+                    "address",
+                    "phone",
+                    "creditLimit",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "title": "CustomerResource"
+            },
+            "DeliveryStatus": {
+                "type": "string",
+                "enum": [
+                    "pending",
+                    "delivered"
+                ],
+                "title": "DeliveryStatus"
+            },
+            "LoginRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
                     },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Forbidden."
-                      ]
+                    "password": {
+                        "type": "string"
                     }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      },
-      "put": {
-        "operationId": "order.update",
-        "summary": "Update order fields such as due date or payment flag",
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "order",
-            "in": "path",
-            "required": true,
-            "description": "The order order id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateOrderRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "status": {
-                          "type": "string",
-                          "enum": [
-                            "success"
-                          ]
-                        },
-                        "data": {
-                          "$ref": "#/components/schemas/OrderResource"
-                        }
-                      },
-                      "required": [
-                        "status",
-                        "data"
-                      ]
+                },
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "title": "LoginRequest"
+            },
+            "OrderItemResource": {
+                "type": "object",
+                "properties": {
+                    "orderItemId": {
+                        "type": "integer"
                     },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "error"
-                      ]
+                    "orderId": {
+                        "type": "integer"
                     },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Forbidden."
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "order.destroy",
-        "summary": "Delete an order record",
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "order",
-            "in": "path",
-            "required": true,
-            "description": "The order order id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "status": {
-                          "type": "string",
-                          "enum": [
-                            "success"
-                          ]
-                        },
-                        "message": {
-                          "type": "string",
-                          "enum": [
-                            "Order deleted successfully"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "status",
-                        "message"
-                      ]
+                    "productId": {
+                        "type": "integer"
                     },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "error"
-                      ]
+                    "quantity": {
+                        "type": "integer"
                     },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Forbidden."
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      }
-    },
-    "/orders/{order}/cancel": {
-      "post": {
-        "operationId": "order.cancel",
-        "summary": "Cancel an order before delivery and restore customer credit",
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "order",
-            "in": "path",
-            "required": true,
-            "description": "The order order id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      }
-    },
-    "/order-items": {
-      "get": {
-        "operationId": "order-items.index",
-        "summary": "List order items with related order and product",
-        "tags": [
-          "OrderItem"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
+                    "itemTotalPrice": {
+                        "type": "string"
                     },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/OrderItemResource"
-                      }
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          }
-        }
-      }
-    },
-    "/order-items/{orderItem}": {
-      "get": {
-        "operationId": "order-items.show",
-        "summary": "Show a single order item with its relations",
-        "tags": [
-          "OrderItem"
-        ],
-        "parameters": [
-          {
-            "name": "orderItem",
-            "in": "path",
-            "required": true,
-            "description": "The order item order item id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
+                    "deliveryStatus": {
+                        "$ref": "#/components/schemas/DeliveryStatus"
                     },
-                    "data": {
-                      "$ref": "#/components/schemas/OrderItemResource"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      },
-      "put": {
-        "operationId": "order-items.update",
-        "summary": "Update delivery status for an order item",
-        "tags": [
-          "OrderItem"
-        ],
-        "parameters": [
-          {
-            "name": "orderItem",
-            "in": "path",
-            "required": true,
-            "description": "The order item order item id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateOrderItemRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
+                    "createdAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
-                    "data": {
-                      "$ref": "#/components/schemas/OrderItemResource"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
-    },
-    "/products": {
-      "get": {
-        "operationId": "product.index",
-        "summary": "List products with pagination",
-        "tags": [
-          "Product"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
+                    "updatedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
-                    "data": {
-                      "type": "array",
-                      "items": {
+                    "product": {
                         "$ref": "#/components/schemas/ProductResource"
-                      }
                     }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          }
-        }
-      },
-      "post": {
-        "operationId": "product.store",
-        "summary": "Create a product and upload optional image array",
-        "tags": [
-          "Product"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/StoreProductRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/ProductResource"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
-    },
-    "/products/{product}": {
-      "get": {
-        "operationId": "product.show",
-        "summary": "Show a single product",
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "product",
-            "in": "path",
-            "required": true,
-            "description": "The product product id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/ProductResource"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      },
-      "put": {
-        "operationId": "product.update",
-        "summary": "Update product details and replace images if provided",
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "product",
-            "in": "path",
-            "required": true,
-            "description": "The product product id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/ProductResource"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      },
-      "delete": {
-        "operationId": "product.destroy",
-        "summary": "Delete a product and its stored images",
-        "tags": [
-          "Product"
-        ],
-        "parameters": [
-          {
-            "name": "product",
-            "in": "path",
-            "required": true,
-            "description": "The product product id",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Product deleted successfully"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      }
-    },
-    "/redeem-codes": {
-      "post": {
-        "operationId": "redeemCode.store",
-        "summary": "Create a new redeem code with a fixed amount",
-        "tags": [
-          "RedeemCode"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoreRedeemCodeRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "code": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "code",
-                        "amount"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
-    },
-    "/redeem-codes/redeem": {
-      "post": {
-        "operationId": "redeemCode.redeem",
-        "summary": "Redeem a code and top up customer credit",
-        "tags": [
-          "RedeemCode"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RedeemCodeRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "code": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "string"
-                        },
-                        "usedAt": {
-                          "type": "string"
-                        },
-                        "usedByCustomerId": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "code",
-                        "amount",
-                        "usedAt",
-                        "usedByCustomerId"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "403": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "error"
-                      ]
-                    },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "No customer profile linked to this account."
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationException"
-          }
-        }
-      }
-    },
-    "/reorder-notices": {
-      "get": {
-        "operationId": "reorderNotice.index",
-        "summary": "List reorder notices with pagination",
-        "tags": [
-          "ReorderNotice"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/ReorderNoticeResource"
-                      }
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          }
-        }
-      }
-    },
-    "/reorder-notices/{reorderNotice}": {
-      "get": {
-        "operationId": "reorderNotice.show",
-        "summary": "Show a single reorder notice",
-        "tags": [
-          "ReorderNotice"
-        ],
-        "parameters": [
-          {
-            "name": "reorderNotice",
-            "in": "path",
-            "required": true,
-            "description": "The reorder notice ID",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "success"
-                      ]
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/ReorderNoticeResource"
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationException"
-          },
-          "404": {
-            "$ref": "#/components/responses/ModelNotFoundException"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "CustomerResource": {
-        "type": "object",
-        "properties": {
-          "customerId": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "middleName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "address": {
-            "type": "object",
-            "properties": {
-              "houseNo": {
-                "type": "string"
-              },
-              "streetName": {
-                "type": "string"
-              },
-              "city": {
-                "type": "string"
-              },
-              "zipCode": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "houseNo",
-              "streetName",
-              "city",
-              "zipCode"
-            ]
-          },
-          "phone": {
-            "type": "string"
-          },
-          "creditLimit": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "customerId",
-          "firstName",
-          "middleName",
-          "lastName",
-          "address",
-          "phone",
-          "creditLimit",
-          "createdAt",
-          "updatedAt"
-        ],
-        "title": "CustomerResource"
-      },
-      "DeliveryStatus": {
-        "type": "string",
-        "enum": [
-          "pending",
-          "delivered"
-        ],
-        "title": "DeliveryStatus"
-      },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "password": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ],
-        "title": "LoginRequest"
-      },
-      "OrderItemResource": {
-        "type": "object",
-        "properties": {
-          "orderItemId": {
-            "type": "string"
-          },
-          "orderId": {
-            "type": "string"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "quantity": {
-            "type": "integer"
-          },
-          "itemTotalPrice": {
-            "type": "string"
-          },
-          "deliveryStatus": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "product": {
-            "$ref": "#/components/schemas/ProductResource"
-          }
-        },
-        "required": [
-          "orderItemId",
-          "orderId",
-          "productId",
-          "quantity",
-          "itemTotalPrice",
-          "deliveryStatus",
-          "createdAt",
-          "updatedAt"
-        ],
-        "title": "OrderItemResource"
-      },
-      "OrderResource": {
-        "type": "object",
-        "properties": {
-          "orderId": {
-            "type": "string"
-          },
-          "customerId": {
-            "type": "string"
-          },
-          "totalPrice": {
-            "type": "string"
-          },
-          "dueDate": {
-            "type": "string"
-          },
-          "orderStatus": {
-            "type": "string"
-          },
-          "isPaid": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "customer": {
-            "$ref": "#/components/schemas/CustomerResource"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderItemResource"
-            }
-          }
-        },
-        "required": [
-          "orderId",
-          "customerId",
-          "totalPrice",
-          "dueDate",
-          "orderStatus",
-          "isPaid",
-          "createdAt",
-          "updatedAt"
-        ],
-        "title": "OrderResource"
-      },
-      "ProductResource": {
-        "type": "object",
-        "properties": {
-          "productId": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "costPrice": {
-            "type": "string"
-          },
-          "sellPrice": {
-            "type": "string"
-          },
-          "currentQuantity": {
-            "type": "string"
-          },
-          "reorderLevel": {
-            "type": "string"
-          },
-          "reorderQuantity": {
-            "type": "string"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "createdAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "productId",
-          "name",
-          "description",
-          "costPrice",
-          "sellPrice",
-          "currentQuantity",
-          "reorderLevel",
-          "reorderQuantity",
-          "images",
-          "createdAt",
-          "updatedAt"
-        ],
-        "title": "ProductResource"
-      },
-      "RedeemCodeRequest": {
-        "type": "object",
-        "properties": {
-          "customerId": {
-            "type": "integer"
-          },
-          "code": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "customerId",
-          "code"
-        ],
-        "title": "RedeemCodeRequest"
-      },
-      "RegisterRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "maxLength": 255
-          },
-          "password": {
-            "type": "string",
-            "minLength": 8
-          },
-          "firstName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "middleName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "lastName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "houseNo": {
-            "type": "string",
-            "maxLength": 50
-          },
-          "streetName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "city": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "zipCode": {
-            "type": "string",
-            "maxLength": 20
-          },
-          "phone": {
-            "type": "string",
-            "maxLength": 20
-          },
-          "password_confirmation": {
-            "type": "string",
-            "minLength": 8
-          }
-        },
-        "required": [
-          "name",
-          "email",
-          "password",
-          "firstName",
-          "middleName",
-          "lastName",
-          "houseNo",
-          "streetName",
-          "city",
-          "zipCode",
-          "phone",
-          "password_confirmation"
-        ],
-        "title": "RegisterRequest"
-      },
-      "ReorderNoticeResource": {
-        "type": "object",
-        "properties": {
-          "reorderNoticeId": {
-            "type": "integer"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "productName": {
-            "type": "string"
-          },
-          "reorderQuantity": {
-            "type": "string"
-          },
-          "currentQuantity": {
-            "type": "string"
-          },
-          "isResolved": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "reorderNoticeId",
-          "productId",
-          "productName",
-          "reorderQuantity",
-          "currentQuantity",
-          "isResolved",
-          "createdAt",
-          "updatedAt"
-        ],
-        "title": "ReorderNoticeResource"
-      },
-      "StoreCustomerRequest": {
-        "type": "object",
-        "properties": {
-          "firstName": {
-            "type": "string"
-          },
-          "middleName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "houseNo": {
-            "type": "string"
-          },
-          "streetName": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "zipCode": {
-            "type": "string"
-          },
-          "creditLimit": {
-            "type": "number",
-            "minimum": 0
-          }
-        },
-        "required": [
-          "firstName",
-          "middleName",
-          "lastName",
-          "phone",
-          "houseNo",
-          "streetName",
-          "city",
-          "zipCode",
-          "creditLimit"
-        ],
-        "title": "StoreCustomerRequest"
-      },
-      "StoreOrderRequest": {
-        "type": "object",
-        "properties": {
-          "customerId": {
-            "type": "integer"
-          },
-          "dueDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "productId": {
-                  "type": "integer"
                 },
-                "quantity": {
-                  "type": "integer",
-                  "minimum": 1
-                }
-              },
-              "required": [
-                "productId",
-                "quantity"
-              ]
+                "required": [
+                    "orderItemId",
+                    "orderId",
+                    "productId",
+                    "quantity",
+                    "itemTotalPrice",
+                    "deliveryStatus",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "title": "OrderItemResource"
             },
-            "minItems": 1
-          }
-        },
-        "required": [
-          "customerId",
-          "dueDate",
-          "items"
-        ],
-        "title": "StoreOrderRequest"
-      },
-      "StoreProductRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "costPrice": {
-            "type": "number",
-            "minimum": 0
-          },
-          "sellPrice": {
-            "type": "number"
-          },
-          "currentQuantity": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "reorderLevel": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "reorderQuantity": {
-            "type": "integer"
-          },
-          "images": {
-            "type": [
-              "array",
-              "null"
-            ],
-            "items": {
-              "type": "string",
-              "format": "binary",
-              "contentMediaType": "application/octet-stream",
-              "maxLength": 2048
-            },
-            "minItems": 3,
-            "maxItems": 4
-          }
-        },
-        "required": [
-          "name",
-          "description",
-          "costPrice",
-          "sellPrice",
-          "currentQuantity",
-          "reorderLevel",
-          "reorderQuantity"
-        ],
-        "title": "StoreProductRequest"
-      },
-      "StoreRedeemCodeRequest": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "amount": {
-            "type": "number",
-            "minimum": 1
-          }
-        },
-        "required": [
-          "amount"
-        ],
-        "title": "StoreRedeemCodeRequest"
-      },
-      "UpdateCustomerRequest": {
-        "type": "object",
-        "properties": {
-          "firstName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "middleName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "lastName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "houseNo": {
-            "type": "string",
-            "maxLength": 50
-          },
-          "streetName": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "city": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "zipCode": {
-            "type": "string",
-            "maxLength": 20
-          },
-          "phone": {
-            "type": "string",
-            "maxLength": 20
-          },
-          "creditLimit": {
-            "type": "number",
-            "minimum": 0
-          }
-        },
-        "title": "UpdateCustomerRequest"
-      },
-      "UpdateOrderItemRequest": {
-        "type": "object",
-        "properties": {
-          "deliveryStatus": {
-            "$ref": "#/components/schemas/DeliveryStatus"
-          }
-        },
-        "required": [
-          "deliveryStatus"
-        ],
-        "title": "UpdateOrderItemRequest"
-      },
-      "UpdateOrderRequest": {
-        "type": "object",
-        "properties": {
-          "dueDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "isPaid": {
-            "type": "boolean"
-          }
-        },
-        "title": "UpdateOrderRequest"
-      },
-      "UpdateProductRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "description": {
-            "type": "string"
-          },
-          "costPrice": {
-            "type": "number",
-            "minimum": 0
-          },
-          "sellPrice": {
-            "type": "number",
-            "minimum": 0
-          },
-          "currentQuantity": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "reorderLevel": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "reorderQuantity": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "images": {
-            "type": [
-              "array",
-              "null"
-            ],
-            "items": {
-              "type": "string",
-              "format": "binary",
-              "contentMediaType": "application/octet-stream",
-              "maxLength": 2048
-            },
-            "minItems": 3,
-            "maxItems": 4
-          }
-        },
-        "title": "UpdateProductRequest"
-      }
-    },
-    "responses": {
-      "ValidationException": {
-        "description": "Validation error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "Errors overview."
-                },
-                "errors": {
-                  "type": "object",
-                  "description": "A detailed description of each field that failed validation.",
-                  "additionalProperties": {
-                    "type": "array",
+            "OrderResource": {
+                "type": "object",
+                "properties": {
+                    "orderId": {
+                        "type": "integer"
+                    },
+                    "customerId": {
+                        "type": "integer"
+                    },
+                    "totalPrice": {
+                        "type": "string"
+                    },
+                    "dueDate": {
+                        "type": "string"
+                    },
+                    "orderStatus": {
+                        "$ref": "#/components/schemas/OrderStatus"
+                    },
+                    "isPaid": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/CustomerResource"
+                    },
                     "items": {
-                      "type": "string"
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItemResource"
+                        }
                     }
-                  }
-                }
-              },
-              "required": [
-                "message",
-                "errors"
-              ]
+                },
+                "required": [
+                    "orderId",
+                    "customerId",
+                    "totalPrice",
+                    "dueDate",
+                    "orderStatus",
+                    "isPaid",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "title": "OrderResource"
+            },
+            "OrderStatus": {
+                "type": "string",
+                "enum": [
+                    "pending",
+                    "processing",
+                    "completed",
+                    "cancelled"
+                ],
+                "title": "OrderStatus"
+            },
+            "ProductResource": {
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "costPrice": {
+                        "type": "string"
+                    },
+                    "sellPrice": {
+                        "type": "string"
+                    },
+                    "currentQuantity": {
+                        "type": "integer"
+                    },
+                    "reorderLevel": {
+                        "type": "integer"
+                    },
+                    "reorderQuantity": {
+                        "type": "integer"
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "createdAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "productId",
+                    "name",
+                    "description",
+                    "costPrice",
+                    "sellPrice",
+                    "currentQuantity",
+                    "reorderLevel",
+                    "reorderQuantity",
+                    "images",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "title": "ProductResource"
+            },
+            "RedeemCodeRequest": {
+                "type": "object",
+                "properties": {
+                    "customerId": {
+                        "type": "integer"
+                    },
+                    "code": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "customerId",
+                    "code"
+                ],
+                "title": "RedeemCodeRequest"
+            },
+            "RegisterRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 8
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "middleName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "houseNo": {
+                        "type": "string",
+                        "maxLength": 50
+                    },
+                    "streetName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "city": {
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "zipCode": {
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "phone": {
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "minLength": 8
+                    }
+                },
+                "required": [
+                    "name",
+                    "email",
+                    "password",
+                    "firstName",
+                    "middleName",
+                    "lastName",
+                    "houseNo",
+                    "streetName",
+                    "city",
+                    "zipCode",
+                    "phone",
+                    "password_confirmation"
+                ],
+                "title": "RegisterRequest"
+            },
+            "ReorderNoticeResource": {
+                "type": "object",
+                "properties": {
+                    "reorderNoticeId": {
+                        "type": "integer"
+                    },
+                    "productId": {
+                        "type": "integer"
+                    },
+                    "productName": {
+                        "type": "string"
+                    },
+                    "reorderQuantity": {
+                        "type": "integer"
+                    },
+                    "currentQuantity": {
+                        "type": "integer"
+                    },
+                    "isResolved": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "reorderNoticeId",
+                    "productId",
+                    "productName",
+                    "reorderQuantity",
+                    "currentQuantity",
+                    "isResolved",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "title": "ReorderNoticeResource"
+            },
+            "StoreCustomerRequest": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "middleName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "houseNo": {
+                        "type": "string"
+                    },
+                    "streetName": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "zipCode": {
+                        "type": "string"
+                    },
+                    "creditLimit": {
+                        "type": "number",
+                        "minimum": 0
+                    }
+                },
+                "required": [
+                    "firstName",
+                    "middleName",
+                    "lastName",
+                    "phone",
+                    "houseNo",
+                    "streetName",
+                    "city",
+                    "zipCode",
+                    "creditLimit"
+                ],
+                "title": "StoreCustomerRequest"
+            },
+            "StoreOrderRequest": {
+                "type": "object",
+                "properties": {
+                    "customerId": {
+                        "type": "integer"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "productId": {
+                                    "type": "integer"
+                                },
+                                "quantity": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                }
+                            },
+                            "required": [
+                                "productId",
+                                "quantity"
+                            ]
+                        },
+                        "minItems": 1
+                    }
+                },
+                "required": [
+                    "customerId",
+                    "dueDate",
+                    "items"
+                ],
+                "title": "StoreOrderRequest"
+            },
+            "StoreProductRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "costPrice": {
+                        "type": "number",
+                        "minimum": 0
+                    },
+                    "sellPrice": {
+                        "type": "number"
+                    },
+                    "currentQuantity": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "reorderLevel": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "reorderQuantity": {
+                        "type": "integer"
+                    },
+                    "images": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                            "type": "string",
+                            "format": "binary",
+                            "contentMediaType": "application/octet-stream",
+                            "maxLength": 2048
+                        },
+                        "minItems": 3,
+                        "maxItems": 4
+                    }
+                },
+                "required": [
+                    "name",
+                    "description",
+                    "costPrice",
+                    "sellPrice",
+                    "currentQuantity",
+                    "reorderLevel",
+                    "reorderQuantity"
+                ],
+                "title": "StoreProductRequest"
+            },
+            "StoreRedeemCodeRequest": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "minimum": 1
+                    }
+                },
+                "required": [
+                    "amount"
+                ],
+                "title": "StoreRedeemCodeRequest"
+            },
+            "UpdateCustomerRequest": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "middleName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "houseNo": {
+                        "type": "string",
+                        "maxLength": 50
+                    },
+                    "streetName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "city": {
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "zipCode": {
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "phone": {
+                        "type": "string",
+                        "maxLength": 20
+                    },
+                    "creditLimit": {
+                        "type": "number",
+                        "minimum": 0
+                    }
+                },
+                "title": "UpdateCustomerRequest"
+            },
+            "UpdateOrderItemRequest": {
+                "type": "object",
+                "properties": {
+                    "deliveryStatus": {
+                        "$ref": "#/components/schemas/DeliveryStatus"
+                    }
+                },
+                "required": [
+                    "deliveryStatus"
+                ],
+                "title": "UpdateOrderItemRequest"
+            },
+            "UpdateOrderRequest": {
+                "type": "object",
+                "properties": {
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "isPaid": {
+                        "type": "boolean"
+                    }
+                },
+                "title": "UpdateOrderRequest"
+            },
+            "UpdateProductRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "costPrice": {
+                        "type": "number",
+                        "minimum": 0
+                    },
+                    "sellPrice": {
+                        "type": "number",
+                        "minimum": 0
+                    },
+                    "currentQuantity": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "reorderLevel": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "reorderQuantity": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "images": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                            "type": "string",
+                            "format": "binary",
+                            "contentMediaType": "application/octet-stream",
+                            "maxLength": 2048
+                        },
+                        "minItems": 3,
+                        "maxItems": 4
+                    }
+                },
+                "title": "UpdateProductRequest"
             }
-          }
-        }
-      },
-      "AuthenticationException": {
-        "description": "Unauthenticated",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "Error overview."
+        },
+        "responses": {
+            "ValidationException": {
+                "description": "Validation error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Errors overview."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "description": "A detailed description of each field that failed validation.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message",
+                                "errors"
+                            ]
+                        }
+                    }
                 }
-              },
-              "required": [
-                "message"
-              ]
-            }
-          }
-        }
-      },
-      "ModelNotFoundException": {
-        "description": "Not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "Error overview."
+            },
+            "AuthenticationException": {
+                "description": "Unauthenticated",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
                 }
-              },
-              "required": [
-                "message"
-              ]
+            },
+            "ModelNotFoundException": {
+                "description": "Not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }
