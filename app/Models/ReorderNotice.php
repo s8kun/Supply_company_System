@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ReorderNotice extends Model
 {
     protected $table = 'reorder_notices';
+    protected $primaryKey = 'reorder_notice_id';
 
     protected $fillable = [
         'product_id',

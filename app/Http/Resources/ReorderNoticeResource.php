@@ -14,7 +14,7 @@ class ReorderNoticeResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'reorderNoticeId' => $this->id,
+            'reorderNoticeId' => $this->reorder_notice_id,
             'productId' => $this->product_id,
             'productName' => $this->product_name,
             'reorderQuantity' => $this->reorder_quantity,
