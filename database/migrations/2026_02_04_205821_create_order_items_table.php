@@ -11,14 +11,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('order_items', function (Blueprint $table) {
-            $table->id('orderItemID');
-            $table->unsignedBigInteger('orderID');
-            $table->foreign('orderID')->references('orderID')->on('orders');
-            $table->unsignedBigInteger('productID');
-            $table->foreign('productID')->references('productID')->on('products');
+            $table->id('order_item_id');
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('order_id')->on('orders');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('product_id')->on('products');
             $table->integer('quantity');
-            $table->decimal('itemTotalPrice', 15, 2);
-            $table->string('deliveryStatus')->default('pending');
+            $table->decimal('item_total_price', 15, 2);
+            $table->string('delivery_status')->default('pending');
             $table->timestamps();
         });
     }

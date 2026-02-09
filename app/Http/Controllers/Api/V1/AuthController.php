@@ -20,7 +20,7 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $data = $request->validatedSnake();
 
         return DB::transaction(function () use ($data): JsonResponse {
             $user = User::query()->create([
@@ -66,7 +66,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $data = $request->validatedSnake();
         $user = User::query()->where('email', $data['email'])->first();
 
         if (!$user || !Hash::check($data['password'], $user->password)) {

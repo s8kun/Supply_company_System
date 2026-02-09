@@ -11,14 +11,14 @@ Accept: application/json
   "name": "Customer Name",
   "email": "{{customerEmail}}",
   "password": "{{customerPassword}}",
-  "password_confirmation": "{{customerPassword}}",
-  "first_name": "Ahmed",
-  "middle_name": "Ali",
-  "last_name": "Hassan",
-  "house_no": "12",
-  "street_name": "King Road",
+  "passwordConfirmation": "{{customerPassword}}",
+  "firstName": "Ahmed",
+  "middleName": "Ali",
+  "lastName": "Hassan",
+  "houseNo": "12",
+  "streetName": "King Road",
   "city": "Riyadh",
-  "zip_code": "11564",
+  "zipCode": "11564",
   "phone": "0551234567"
 }
 

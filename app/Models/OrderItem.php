@@ -8,27 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class OrderItem extends Model
 {
     protected $table = 'order_items';
-    protected $primaryKey = 'orderItemID';
+    protected $primaryKey = 'order_item_id';
     protected $fillable = [
-        'orderID',
-        'productID',
+        'order_id',
+        'product_id',
         'quantity',
-        'itemTotalPrice',
-        'deliveryStatus',
+        'item_total_price',
+        'delivery_status',
     ];
     protected $casts = [
-        'deliveryStatus' => DeliveryStatus::class,
+        'delivery_status' => DeliveryStatus::class,
     ];
 
     public function order()
     {
         // Link item to its parent order.
-        return $this->belongsTo(Order::class, 'orderID', 'orderID');
+        return $this->belongsTo(Order::class, 'order_id', 'order_id');
     }
 
     public function product()
     {
         // Link item to its product.
-        return $this->belongsTo(Product::class, 'productID', 'productID');
+        return $this->belongsTo(Product::class, 'product_id', 'product_id');
     }
 }

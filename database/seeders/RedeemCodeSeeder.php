@@ -20,7 +20,7 @@ class RedeemCodeSeeder extends Seeder
             RedeemCode::query()->create([
                 'code' => Str::upper(Str::random(12)),
                 'amount' => $faker->randomFloat(2, 50, 500),
-                'isUsed' => false,
+                'is_used' => false,
             ]);
         }
     }

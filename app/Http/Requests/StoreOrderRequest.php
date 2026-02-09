@@ -3,12 +3,15 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Traits\CamelCaseRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOrderRequest extends FormRequest
 {
+    use CamelCaseRequestTrait;
+
     /**
-     * Force customerID to the authenticated customer's record.
+     * Force customer_id to the authenticated customer's record.
      */
     protected function prepareForValidation(): void
     {
@@ -19,7 +22,7 @@ class StoreOrderRequest extends FormRequest
         }
 
         if ($user->customer) {
-            $this->merge(['customerID' => $user->customer->customerID]);
+            $this->merge(['customerId' => $user->customer->customer_id]);
         }
     }
 
@@ -39,10 +42,10 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customerID' => 'required|exists:customers,customerID',
+            'customerId' => 'required|exists:customers,customer_id',
             'dueDate' => 'required|date|after_or_equal:today',
             'items' => 'required|array|min:1',
-            'items.*.productID' => 'required|distinct|exists:products,productID',
+            'items.*.productId' => 'required|distinct|exists:products,product_id',
             'items.*.quantity' => 'required|integer|min:1',
         ];
     }
@@ -55,12 +58,12 @@ class StoreOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'customerID.required' => 'حقل رقم العميل مطلوب.',
-            'customerID.exists' => 'رقم العميل غير موجود.',
+            'customerId.required' => 'حقل رقم العميل مطلوب.',
+            'customerId.exists' => 'رقم العميل غير موجود.',
             'dueDate.required' => 'حقل تاريخ الاستحقاق مطلوب.',
             'items.required' => 'حقل العناصر مطلوب.',
-            'items.*.productID.required' => 'حقل المنتج مطلوب.',
-            'items.*.productID.exists' => 'المنتج غير موجود.',
+            'items.*.productId.required' => 'حقل المنتج مطلوب.',
+            'items.*.productId.exists' => 'المنتج غير موجود.',
             'items.*.quantity.required' => 'حقل الكمية مطلوب.',
         ];
     }

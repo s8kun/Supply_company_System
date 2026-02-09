@@ -16,12 +16,12 @@ class ReorderNoticeSeeder extends Seeder
         $reorderNoticeService = app(ReorderNoticeService::class);
 
         Product::query()
-            ->whereColumn('currentQuantity', '<=', 'reorderLevel')
-            ->orderBy('productID')
+            ->whereColumn('current_quantity', '<=', 'reorder_level')
+            ->orderBy('product_id')
             ->chunkById(200, function ($products) use ($reorderNoticeService) {
                 foreach ($products as $product) {
                     $reorderNoticeService->createIfNeeded($product);
                 }
-            }, 'productID');
+            }, 'product_id');
     }
 }

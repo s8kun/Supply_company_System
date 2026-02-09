@@ -59,7 +59,7 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer): JsonResponse
     {
-        $customer->update($request->validated());
+        $customer->update($request->validatedSnake());
 
         return response()->json([
             'status' => 'success',

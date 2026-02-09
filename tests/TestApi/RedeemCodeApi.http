@@ -18,7 +18,7 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-  "customerID": {{customerId}},
+  "customerId": {{customerId}},
   "code": "PASTE_CODE_HERE"
 }
 
@@ -29,6 +29,6 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-  "customerID": {{customerId}},
+  "customerId": {{customerId}},
   "code": "PASTE_CODE_HERE"
 }

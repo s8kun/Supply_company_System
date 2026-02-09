@@ -3,11 +3,14 @@
 namespace App\Http\Requests;
 
 use App\Enums\DeliveryStatus;
+use App\Traits\CamelCaseRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
 class UpdateOrderItemRequest extends FormRequest
 {
+    use CamelCaseRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */

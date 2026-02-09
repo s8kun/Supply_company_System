@@ -16,21 +16,21 @@ class ProductResource extends JsonResource
     public function toArray($request): array
     {
         $images = collect($this->images ?? [])
-            ->map(fn ($path) => Storage::url($path))
+            ->map(fn($path) => Storage::url($path))
             ->values();
 
         return [
-            'productID' => $this->productID,
+            'productId' => $this->product_id,
             'name' => $this->name,
             'description' => $this->description,
-            'costPrice' => $this->costPrice,
-            'sellPrice' => $this->sellPrice,
-            'currentQuantity' => $this->currentQuantity,
-            'reorderLevel' => $this->reorderLevel,
-            'reorderQuantity' => $this->reorderQuantity,
+            'costPrice' => $this->cost_price,
+            'sellPrice' => $this->sell_price,
+            'currentQuantity' => $this->current_quantity,
+            'reorderLevel' => $this->reorder_level,
+            'reorderQuantity' => $this->reorder_quantity,
             'images' => $images,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }

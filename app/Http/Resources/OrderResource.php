@@ -15,14 +15,14 @@ class OrderResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'orderID' => $this->orderID,
-            'customerID' => $this->customerID,
-            'totalPrice' => $this->totalPrice,
-            'dueDate' => $this->dueDate,
-            'orderStatus' => $this->orderStatus,
-            'isPaid' => $this->isPaid,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'orderId' => $this->order_id,
+            'customerId' => $this->customer_id,
+            'totalPrice' => $this->total_price,
+            'dueDate' => $this->due_date,
+            'orderStatus' => $this->order_status,
+            'isPaid' => $this->is_paid,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'items' => OrderItemResource::collection($this->whenLoaded('items')),
         ];

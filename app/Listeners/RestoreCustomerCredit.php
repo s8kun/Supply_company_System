@@ -23,7 +23,7 @@ class RestoreCustomerCredit
         $order = $event->order->refresh();
 
         $customer = Customer::query()
-            ->where('customerID', $order->customerID)
+            ->where('customer_id', $order->customer_id)
             ->lockForUpdate()
             ->first();
 
@@ -31,6 +31,6 @@ class RestoreCustomerCredit
             return;
         }
 
-        $this->creditService->creditCustomer($customer, (float) $order->totalPrice);
+        $this->creditService->creditCustomer($customer, (float) $order->total_price);
     }
 }

@@ -38,22 +38,22 @@ class OrderService
     {
         return DB::transaction(function () use ($data): Order {
             $customer = Customer::query()
-                ->where('customerID', $data['customerID'])
+                ->where('customer_id', $data['customer_id'])
                 ->lockForUpdate()
                 ->firstOrFail();
             $items = $data['items'];
 
-            $productIds = collect($items)->pluck('productID')->unique()->values();
+            $productIds = collect($items)->pluck('product_id')->unique()->values();
             $products = Product::query()
-                ->whereIn('productID', $productIds)
+                ->whereIn('product_id', $productIds)
                 ->get()
-                ->keyBy('productID');
+                ->keyBy('product_id');
 
             $orderTotal = 0.0;
             $itemsToCreate = [];
 
             foreach ($items as $item) {
-                $product = $products->get($item['productID']);
+                $product = $products->get($item['product_id']);
                 if (!$product) {
                     throw ValidationException::withMessages([
                         'items' => ['Invalid product selected.'],
@@ -61,35 +61,35 @@ class OrderService
                 }
 
                 $quantity = (int)$item['quantity'];
-                if ($product->currentQuantity < $quantity) {
+                if ($product->current_quantity < $quantity) {
                     throw ValidationException::withMessages([
-                        'items' => ["Product {$product->productID} does not have enough stock."],
+                        'items' => ["Product {$product->product_id} does not have enough stock."],
                     ]);
                 }
 
-                $itemTotal = $this->pricingService->calculateItemTotal((float)$product->sellPrice, $quantity);
+                $itemTotal = $this->pricingService->calculateItemTotal((float)$product->sell_price, $quantity);
                 $orderTotal += $itemTotal;
 
                 $itemsToCreate[] = [
-                    'productID' => $product->productID,
+                    'product_id' => $product->product_id,
                     'quantity' => $quantity,
-                    'itemTotalPrice' => $itemTotal,
-                    'deliveryStatus' => DeliveryStatus::PENDING,
+                    'item_total_price' => $itemTotal,
+                    'delivery_status' => DeliveryStatus::PENDING,
                 ];
             }
 
             if ($orderTotal > (float)$customer->credit_limit) {
                 throw ValidationException::withMessages([
-                    'customerID' => ['Credit limit exceeded for this order.'],
+                    'customer_id' => ['Credit limit exceeded for this order.'],
                 ]);
             }
 
             $order = Order::query()->create([
-                'customerID' => $customer->customerID,
-                'totalPrice' => $orderTotal,
-                'dueDate' => $data['dueDate'],
-                'orderStatus' => OrderStatus::PENDING,
-                'isPaid' => false,
+                'customer_id' => $customer->customer_id,
+                'total_price' => $orderTotal,
+                'due_date' => $data['due_date'],
+                'order_status' => OrderStatus::PENDING,
+                'is_paid' => false,
             ]);
 
             $order->items()->createMany($itemsToCreate);
@@ -106,27 +106,27 @@ class OrderService
     {
         return DB::transaction(function () use ($order): Order {
             $order = Order::query()
-                ->where('orderID', $order->orderID)
+                ->where('order_id', $order->order_id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if ($order->orderStatus === OrderStatus::CANCELLED) {
+            if ($order->order_status === OrderStatus::CANCELLED) {
                 throw ValidationException::withMessages([
-                    'orderStatus' => ['Order is already cancelled.'],
+                    'order_status' => ['Order is already cancelled.'],
                 ]);
             }
 
             $hasDelivered = $order->items()
-                ->where('deliveryStatus', DeliveryStatus::DELIVERED->value)
+                ->where('delivery_status', DeliveryStatus::DELIVERED->value)
                 ->exists();
 
             if ($hasDelivered) {
                 throw ValidationException::withMessages([
-                    'orderStatus' => ['Delivered orders cannot be cancelled.'],
+                    'order_status' => ['Delivered orders cannot be cancelled.'],
                 ]);
             }
 
-            $order->orderStatus = OrderStatus::CANCELLED;
+            $order->order_status = OrderStatus::CANCELLED;
             $order->save();
 
             event(new OrderCancelled($order));

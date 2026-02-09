@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\CamelCaseRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCustomerRequest extends FormRequest
 {
+    use CamelCaseRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,15 +25,15 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required',
-            'middle_name' => 'required',
-            'last_name' => 'required',
+            'firstName' => 'required',
+            'middleName' => 'required',
+            'lastName' => 'required',
             'phone' => 'required|unique:customers,phone',
-            'house_no' => 'required',
-            'street_name' => 'required',
+            'houseNo' => 'required',
+            'streetName' => 'required',
             'city' => 'required',
-            'zip_code' => 'required',
-            'credit_limit' => 'required|numeric|min:0',
+            'zipCode' => 'required',
+            'creditLimit' => 'required|numeric|min:0',
         ];
     }
 
@@ -42,16 +45,16 @@ class StoreCustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'first_name.required' => 'حقل الاسم الاول مطلوب.',
-            'middle_name.required' => 'حقل الاسم الاوسط مطلوب.',
-            'last_name.required' => 'حقل الاسم الاخير مطلوب.',
+            'firstName.required' => 'حقل الاسم الاول مطلوب.',
+            'middleName.required' => 'حقل الاسم الاوسط مطلوب.',
+            'lastName.required' => 'حقل الاسم الاخير مطلوب.',
             'phone.required' => 'حقل رقم الهاتف مطلوب.',
             'phone.unique' => 'حقل رقم الهاتف مستخدم مسبقا.',
-            'house_no.required' => 'حقل رقم المنزل مطلوب.',
-            'street_name.required' => 'حقل اسم الشارع مطلوب.',
+            'houseNo.required' => 'حقل رقم المنزل مطلوب.',
+            'streetName.required' => 'حقل اسم الشارع مطلوب.',
             'city.required' => 'حقل المدينة مطلوب.',
-            'zip_code.required' => 'حقل الرمز البريدي مطلوب.',
-            'credit_limit.required' => 'حقل الحد الائتماني مطلوب.',
+            'zipCode.required' => 'حقل الرمز البريدي مطلوب.',
+            'creditLimit.required' => 'حقل الحد الائتماني مطلوب.',
         ];
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\CamelCaseRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
+    use CamelCaseRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,13 +28,13 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email:rfc,dns|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'house_no' => 'required|string|max:50',
-            'street_name' => 'required|string|max:255',
+            'firstName' => 'required|string|max:255',
+            'middleName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'houseNo' => 'required|string|max:50',
+            'streetName' => 'required|string|max:255',
             'city' => 'required|string|max:100',
-            'zip_code' => 'required|string|max:20',
+            'zipCode' => 'required|string|max:20',
             'phone' => 'required|string|max:20|unique:customers,phone',
         ];
     }
@@ -48,13 +51,13 @@ class RegisterRequest extends FormRequest
             'email.required' => 'حقل الايميل مطلوب.',
             'email.unique' => 'حقل الايميل مستخدم مسبقا.',
             'password.required' => 'حقل كلمة المرور مطلوب.',
-            'first_name.required' => 'حقل الاسم الاول مطلوب.',
-            'middle_name.required' => 'حقل الاسم الاوسط مطلوب.',
-            'last_name.required' => 'حقل الاسم الاخير مطلوب.',
-            'house_no.required' => 'حقل رقم المنزل مطلوب.',
-            'street_name.required' => 'حقل اسم الشارع مطلوب.',
+            'firstName.required' => 'حقل الاسم الاول مطلوب.',
+            'middleName.required' => 'حقل الاسم الاوسط مطلوب.',
+            'lastName.required' => 'حقل الاسم الاخير مطلوب.',
+            'houseNo.required' => 'حقل رقم المنزل مطلوب.',
+            'streetName.required' => 'حقل اسم الشارع مطلوب.',
             'city.required' => 'حقل المدينة مطلوب.',
-            'zip_code.required' => 'حقل الرمز البريدي مطلوب.',
+            'zipCode.required' => 'حقل الرمز البريدي مطلوب.',
             'phone.required' => 'حقل رقم الهاتف مطلوب.',
             'phone.unique' => 'حقل رقم الهاتف مستخدم مسبقا.',
         ];

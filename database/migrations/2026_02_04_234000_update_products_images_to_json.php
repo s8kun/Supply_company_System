@@ -21,7 +21,7 @@ return new class extends Migration
         if ($addImages || $dropImage) {
             Schema::table('products', function (Blueprint $table) use ($addImages, $dropImage) {
                 if ($addImages) {
-                    $table->json('images')->nullable()->after('reorderQuantity');
+                    $table->json('images')->nullable()->after('reorder_quantity');
                 }
                 if ($dropImage) {
                     $table->dropColumn('image');

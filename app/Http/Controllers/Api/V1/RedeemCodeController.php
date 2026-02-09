@@ -24,7 +24,7 @@ class RedeemCodeController extends Controller
      */
     public function store(StoreRedeemCodeRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $data = $request->validatedSnake();
         $redeemCode = $this->redeemCodeService->createCode(
             (float) $data['amount'],
             $data['code'] ?? null
@@ -44,7 +44,7 @@ class RedeemCodeController extends Controller
      */
     public function redeem(RedeemCodeRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $data = $request->validatedSnake();
         $user = $request->user();
 
         if ($user && $user->role === User::ROLE_CUSTOMER) {
@@ -56,7 +56,7 @@ class RedeemCodeController extends Controller
             }
             $customer = $user->customer;
         } else {
-            $customer = Customer::query()->findOrFail($data['customerID']);
+            $customer = Customer::query()->findOrFail($data['customer_id']);
         }
 
         $redeemCode = $this->redeemCodeService->redeemCode($customer, $data['code']);
@@ -66,8 +66,8 @@ class RedeemCodeController extends Controller
             'data' => [
                 'code' => $redeemCode->code,
                 'amount' => $redeemCode->amount,
-                'usedAt' => $redeemCode->usedAt,
-                'usedByCustomerID' => $redeemCode->usedByCustomerID,
+                'usedAt' => $redeemCode->used_at,
+                'usedByCustomerId' => $redeemCode->used_by_customer_id,
             ],
         ], 200);
     }

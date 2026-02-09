@@ -33,12 +33,12 @@ class OrderController extends Controller
                 ], 403);
             }
 
-            $query->where('customerID', $user->customer->customerID);
+            $query->where('customer_id', $user->customer->customer_id);
         }
 
         return response()->json([
             'status' => 'success',
-            'data' => $query->paginate(5),
+            'data' => OrderResource::collection($query->paginate(5)),
         ],
             200);
     }
@@ -57,7 +57,7 @@ class OrderController extends Controller
             ], 403);
         }
 
-        $order = $this->orderService->placeOrder($request->validated());
+        $order = $this->orderService->placeOrder($request->validatedSnake());
         return response()->json([
             'status' => 'success',
             'data' => new OrderResource($order),
@@ -91,7 +91,7 @@ class OrderController extends Controller
             return $guard;
         }
 
-        $order->update($request->validated());
+        $order->update($request->validatedSnake());
         $order->load(['customer', 'items.product']);
         return response()->json([
             'status' => 'success',
@@ -142,7 +142,7 @@ class OrderController extends Controller
             return null;
         }
 
-        if (!$user->customer || $order->customerID !== $user->customer->customerID) {
+        if (!$user->customer || $order->customer_id !== $user->customer->customer_id) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Forbidden.',

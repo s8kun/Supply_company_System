@@ -47,20 +47,20 @@ class RedeemCodeService
                 ]);
             }
 
-            if ($redeemCode->isUsed) {
+            if ($redeemCode->is_used) {
                 throw ValidationException::withMessages([
                     'code' => ['Redeem code already used.'],
                 ]);
             }
 
             $customer = Customer::query()
-                ->where('customerID', $customer->customerID)
+                ->where('customer_id', $customer->customer_id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            $redeemCode->isUsed = true;
-            $redeemCode->usedAt = now();
-            $redeemCode->usedByCustomerID = $customer->customerID;
+            $redeemCode->is_used = true;
+            $redeemCode->used_at = now();
+            $redeemCode->used_by_customer_id = $customer->customer_id;
             $redeemCode->save();
 
             $this->creditService->creditCustomer($customer, (float) $redeemCode->amount);

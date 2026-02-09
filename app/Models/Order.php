@@ -8,28 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $table = 'orders';
-    protected $primaryKey = 'orderID';
+    protected $primaryKey = 'order_id';
     protected $fillable = [
-        'customerID',
-        'totalPrice',
-        'dueDate',
-        'orderStatus',
-        'isPaid',
+        'customer_id',
+        'total_price',
+        'due_date',
+        'order_status',
+        'is_paid',
     ];
     protected $casts = [
-        'orderStatus' => OrderStatus::class,
-        'isPaid' => 'boolean',
+        'order_status' => OrderStatus::class,
+        'is_paid' => 'boolean',
     ];
 
     public function customer()
     {
         // Link order to its owning customer.
-        return $this->belongsTo(Customer::class, 'customerID', 'customerID');
+        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
     }
 
     public function items()
     {
         // Link order to its line items.
-        return $this->hasMany(OrderItem::class, 'orderID', 'orderID');
+        return $this->hasMany(OrderItem::class, 'order_id', 'order_id');
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\CamelCaseRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCustomerRequest extends FormRequest
 {
+    use CamelCaseRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,15 +25,15 @@ class UpdateCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'sometimes|required|string|max:255',
-            'middle_name' => 'sometimes|required|string|max:255',
-            'last_name' => 'sometimes|required|string|max:255',
-            'house_no' => 'sometimes|required|string|max:50',
-            'street_name' => 'sometimes|required|string|max:255',
+            'firstName' => 'sometimes|required|string|max:255',
+            'middleName' => 'sometimes|required|string|max:255',
+            'lastName' => 'sometimes|required|string|max:255',
+            'houseNo' => 'sometimes|required|string|max:50',
+            'streetName' => 'sometimes|required|string|max:255',
             'city' => 'sometimes|required|string|max:100',
-            'zip_code' => 'sometimes|required|string|max:20',
-            'phone' => 'sometimes|required|string|max:20|unique:customers,phone,' . $this->customer->customerID . ',customerID',
-            'credit_limit' => 'sometimes|required|numeric|min:0',
+            'zipCode' => 'sometimes|required|string|max:20',
+            'phone' => 'sometimes|required|string|max:20|unique:customers,phone,' . $this->customer->customer_id . ',customer_id',
+            'creditLimit' => 'sometimes|required|numeric|min:0',
         ];
     }
 
@@ -42,16 +45,16 @@ class UpdateCustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'first_name.required' => 'حقل الاسم الاول مطلوب.',
-            'middle_name.required' => 'حقل الاسم الاوسط مطلوب.',
-            'last_name.required' => 'حقل الاسم الاخير مطلوب.',
-            'house_no.required' => 'حقل رقم المنزل مطلوب.',
-            'street_name.required' => 'حقل اسم الشارع مطلوب.',
+            'firstName.required' => 'حقل الاسم الاول مطلوب.',
+            'middleName.required' => 'حقل الاسم الاوسط مطلوب.',
+            'lastName.required' => 'حقل الاسم الاخير مطلوب.',
+            'houseNo.required' => 'حقل رقم المنزل مطلوب.',
+            'streetName.required' => 'حقل اسم الشارع مطلوب.',
             'city.required' => 'حقل المدينة مطلوب.',
-            'zip_code.required' => 'حقل الرمز البريدي مطلوب.',
+            'zipCode.required' => 'حقل الرمز البريدي مطلوب.',
             'phone.required' => 'حقل رقم الهاتف مطلوب.',
             'phone.unique' => 'حقل رقم الهاتف مستخدم مسبقا.',
-            'credit_limit.required' => 'حقل الحد الائتماني مطلوب.',
+            'creditLimit.required' => 'حقل الحد الائتماني مطلوب.',
         ];
     }
 }

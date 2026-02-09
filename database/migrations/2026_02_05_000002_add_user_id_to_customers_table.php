@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->nullable()
                 ->unique()
-                ->after('customerID')
+                ->after('customer_id')
                 ->constrained('users')
                 ->nullOnDelete();
         });

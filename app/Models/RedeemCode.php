@@ -12,19 +12,19 @@ class RedeemCode extends Model
     protected $fillable = [
         'code',
         'amount',
-        'isUsed',
-        'usedAt',
-        'usedByCustomerID',
+        'is_used',
+        'used_at',
+        'used_by_customer_id',
     ];
 
     protected $casts = [
-        'isUsed' => 'boolean',
-        'usedAt' => 'datetime',
+        'is_used' => 'boolean',
+        'used_at' => 'datetime',
     ];
 
     public function customer()
     {
         // Link redeemed code to the customer who used it.
-        return $this->belongsTo(Customer::class, 'usedByCustomerID', 'customerID');
+        return $this->belongsTo(Customer::class, 'used_by_customer_id', 'customer_id');
     }
 }

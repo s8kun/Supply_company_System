@@ -26,50 +26,50 @@ class OrderItemService
         return DB::transaction(function () use ($orderItem, $status): OrderItem {
             $orderItem->refresh();
 
-            if ($orderItem->order && $orderItem->order->orderStatus === OrderStatus::CANCELLED) {
+            if ($orderItem->order && $orderItem->order->order_status === OrderStatus::CANCELLED) {
                 throw ValidationException::withMessages([
-                    'deliveryStatus' => ['Cannot deliver items for a cancelled order.'],
+                    'delivery_status' => ['Cannot deliver items for a cancelled order.'],
                 ]);
             }
 
-            if ($orderItem->deliveryStatus === DeliveryStatus::DELIVERED) {
+            if ($orderItem->delivery_status === DeliveryStatus::DELIVERED) {
                 throw ValidationException::withMessages([
-                    'deliveryStatus' => ['Order item is already delivered.'],
+                    'delivery_status' => ['Order item is already delivered.'],
                 ]);
             }
 
             if ($status !== DeliveryStatus::DELIVERED) {
                 throw ValidationException::withMessages([
-                    'deliveryStatus' => ['Only transition to delivered is allowed.'],
+                    'delivery_status' => ['Only transition to delivered is allowed.'],
                 ]);
             }
 
             $product = Product::query()
-                ->where('productID', $orderItem->productID)
+                ->where('product_id', $orderItem->product_id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if ($product->currentQuantity < $orderItem->quantity) {
+            if ($product->current_quantity < $orderItem->quantity) {
                 throw ValidationException::withMessages([
-                    'deliveryStatus' => ['Not enough stock to deliver this item.'],
+                    'delivery_status' => ['Not enough stock to deliver this item.'],
                 ]);
             }
 
-            $product->currentQuantity = $product->currentQuantity - $orderItem->quantity;
+            $product->current_quantity = $product->current_quantity - $orderItem->quantity;
             $product->save();
             $this->reorderNoticeService->createIfNeeded($product);
 
-            $orderItem->deliveryStatus = $status;
+            $orderItem->delivery_status = $status;
             $orderItem->save();
 
             $order = $orderItem->order()->lockForUpdate()->first();
             if ($order) {
                 $hasPending = $order->items()
-                    ->where('deliveryStatus', '!=', DeliveryStatus::DELIVERED->value)
+                    ->where('delivery_status', '!=', DeliveryStatus::DELIVERED->value)
                     ->exists();
 
                 if (!$hasPending) {
-                    $order->orderStatus = OrderStatus::COMPLETED;
+                    $order->order_status = OrderStatus::COMPLETED;
                     $order->save();
                 }
             }

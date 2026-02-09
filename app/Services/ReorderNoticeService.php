@@ -12,13 +12,13 @@ class ReorderNoticeService
      */
     public function createIfNeeded(Product $product): ?ReorderNotice
     {
-        if ($product->currentQuantity > $product->reorderLevel) {
+        if ($product->current_quantity > $product->reorder_level) {
             return null;
         }
 
         $existingNotice = ReorderNotice::query()
-            ->where('productID', $product->productID)
-            ->where('isResolved', false)
+            ->where('product_id', $product->product_id)
+            ->where('is_resolved', false)
             ->first();
 
         if ($existingNotice) {
@@ -26,11 +26,11 @@ class ReorderNoticeService
         }
 
         return ReorderNotice::query()->create([
-            'productID' => $product->productID,
-            'productName' => $product->name,
-            'reorderQuantity' => $product->reorderQuantity,
-            'currentQuantity' => $product->currentQuantity,
-            'isResolved' => false,
+            'product_id' => $product->product_id,
+            'product_name' => $product->name,
+            'reorder_quantity' => $product->reorder_quantity,
+            'current_quantity' => $product->current_quantity,
+            'is_resolved' => false,
         ]);
     }
 }

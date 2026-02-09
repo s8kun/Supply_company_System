@@ -16,20 +16,20 @@ class CustomerResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'customerID' => $this->customerID,
-            'first_name' => $this->first_name,
-            'middle_name' => $this->middle_name,
-            'last_name' => $this->last_name,
+            'customerId' => $this->customer_id,
+            'firstName' => $this->first_name,
+            'middleName' => $this->middle_name,
+            'lastName' => $this->last_name,
             'address' => [
-                'house_no' => $this->house_no,
-                'street_name' => $this->street_name,
+                'houseNo' => $this->house_no,
+                'streetName' => $this->street_name,
                 'city' => $this->city,
-                'zip_code' => $this->zip_code,
+                'zipCode' => $this->zip_code,
             ],
             'phone' => $this->phone,
-            'credit_limit' => $this->credit_limit,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'creditLimit' => $this->credit_limit,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
 
     }

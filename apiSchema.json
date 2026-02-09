@@ -386,7 +386,7 @@
             "name": "customer",
             "in": "path",
             "required": true,
-            "description": "The customer customerid",
+            "description": "The customer customer id",
             "schema": {
               "type": "integer"
             }
@@ -437,7 +437,7 @@
             "name": "customer",
             "in": "path",
             "required": true,
-            "description": "The customer customerid",
+            "description": "The customer customer id",
             "schema": {
               "type": "integer"
             }
@@ -500,7 +500,7 @@
             "name": "customer",
             "in": "path",
             "required": true,
-            "description": "The customer customerid",
+            "description": "The customer customer id",
             "schema": {
               "type": "integer"
             }
@@ -563,7 +563,10 @@
                       ]
                     },
                     "data": {
-                      "$ref": "#/components/schemas/LengthAwarePaginator"
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/OrderResource"
+                      }
                     }
                   },
                   "required": [
@@ -698,7 +701,7 @@
             "name": "order",
             "in": "path",
             "required": true,
-            "description": "The order orderid",
+            "description": "The order order id",
             "schema": {
               "type": "integer"
             }
@@ -784,7 +787,7 @@
             "name": "order",
             "in": "path",
             "required": true,
-            "description": "The order orderid",
+            "description": "The order order id",
             "schema": {
               "type": "integer"
             }
@@ -882,7 +885,7 @@
             "name": "order",
             "in": "path",
             "required": true,
-            "description": "The order orderid",
+            "description": "The order order id",
             "schema": {
               "type": "integer"
             }
@@ -973,7 +976,7 @@
             "name": "order",
             "in": "path",
             "required": true,
-            "description": "The order orderid",
+            "description": "The order order id",
             "schema": {
               "type": "integer"
             }
@@ -1053,7 +1056,7 @@
             "name": "orderItem",
             "in": "path",
             "required": true,
-            "description": "The order item orderitemid",
+            "description": "The order item order item id",
             "schema": {
               "type": "integer"
             }
@@ -1104,7 +1107,7 @@
             "name": "orderItem",
             "in": "path",
             "required": true,
-            "description": "The order item orderitemid",
+            "description": "The order item order item id",
             "schema": {
               "type": "integer"
             }
@@ -1262,7 +1265,7 @@
             "name": "product",
             "in": "path",
             "required": true,
-            "description": "The product productid",
+            "description": "The product product id",
             "schema": {
               "type": "integer"
             }
@@ -1313,7 +1316,7 @@
             "name": "product",
             "in": "path",
             "required": true,
-            "description": "The product productid",
+            "description": "The product product id",
             "schema": {
               "type": "integer"
             }
@@ -1376,7 +1379,7 @@
             "name": "product",
             "in": "path",
             "required": true,
-            "description": "The product productid",
+            "description": "The product product id",
             "schema": {
               "type": "integer"
             }
@@ -1525,24 +1528,17 @@
                           "type": "string"
                         },
                         "usedAt": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "date-time"
+                          "type": "string"
                         },
-                        "usedByCustomerID": {
-                          "type": [
-                            "integer",
-                            "null"
-                          ]
+                        "usedByCustomerId": {
+                          "type": "string"
                         }
                       },
                       "required": [
                         "code",
                         "amount",
                         "usedAt",
-                        "usedByCustomerID"
+                        "usedByCustomerId"
                       ]
                     }
                   },
@@ -1616,7 +1612,10 @@
                       ]
                     },
                     "data": {
-                      "$ref": "#/components/schemas/LengthAwarePaginator"
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ReorderNoticeResource"
+                      }
                     }
                   },
                   "required": [
@@ -1666,7 +1665,7 @@
                       ]
                     },
                     "data": {
-                      "$ref": "#/components/schemas/ReorderNotice"
+                      "$ref": "#/components/schemas/ReorderNoticeResource"
                     }
                   },
                   "required": [
@@ -1692,55 +1691,55 @@
       "CustomerResource": {
         "type": "object",
         "properties": {
-          "customerID": {
-            "type": "integer"
-          },
-          "first_name": {
+          "customerId": {
             "type": "string"
           },
-          "middle_name": {
+          "firstName": {
             "type": "string"
           },
-          "last_name": {
+          "middleName": {
+            "type": "string"
+          },
+          "lastName": {
             "type": "string"
           },
           "address": {
             "type": "object",
             "properties": {
-              "house_no": {
+              "houseNo": {
                 "type": "string"
               },
-              "street_name": {
+              "streetName": {
                 "type": "string"
               },
               "city": {
                 "type": "string"
               },
-              "zip_code": {
+              "zipCode": {
                 "type": "string"
               }
             },
             "required": [
-              "house_no",
-              "street_name",
+              "houseNo",
+              "streetName",
               "city",
-              "zip_code"
+              "zipCode"
             ]
           },
           "phone": {
             "type": "string"
           },
-          "credit_limit": {
+          "creditLimit": {
             "type": "string"
           },
-          "created_at": {
+          "createdAt": {
             "type": [
               "string",
               "null"
             ],
             "format": "date-time"
           },
-          "updated_at": {
+          "updatedAt": {
             "type": [
               "string",
               "null"
@@ -1749,15 +1748,15 @@
           }
         },
         "required": [
-          "customerID",
-          "first_name",
-          "middle_name",
-          "last_name",
+          "customerId",
+          "firstName",
+          "middleName",
+          "lastName",
           "address",
           "phone",
-          "credit_limit",
-          "created_at",
-          "updated_at"
+          "creditLimit",
+          "createdAt",
+          "updatedAt"
         ],
         "title": "CustomerResource"
       },
@@ -1768,79 +1767,6 @@
           "delivered"
         ],
         "title": "DeliveryStatus"
-      },
-      "LengthAwarePaginator": {
-        "type": "object",
-        "properties": {
-          "current_page": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "string"
-          },
-          "first_page_url": {
-            "type": "string"
-          },
-          "from": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "last_page": {
-            "type": "integer"
-          },
-          "last_page_url": {
-            "type": "string"
-          },
-          "links": {
-            "type": "object",
-            "additionalProperties": {}
-          },
-          "next_page_url": {
-            "type": "string"
-          },
-          "path": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "per_page": {
-            "type": "integer"
-          },
-          "prev_page_url": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "to": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "total": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "current_page",
-          "data",
-          "first_page_url",
-          "from",
-          "last_page",
-          "last_page_url",
-          "links",
-          "next_page_url",
-          "path",
-          "per_page",
-          "prev_page_url",
-          "to",
-          "total"
-        ],
-        "title": "LengthAwarePaginator"
       },
       "LoginRequest": {
         "type": "object",
@@ -1862,14 +1788,14 @@
       "OrderItemResource": {
         "type": "object",
         "properties": {
-          "orderItemID": {
-            "type": "integer"
+          "orderItemId": {
+            "type": "string"
           },
-          "orderID": {
-            "type": "integer"
+          "orderId": {
+            "type": "string"
           },
-          "productID": {
-            "type": "integer"
+          "productId": {
+            "type": "string"
           },
           "quantity": {
             "type": "integer"
@@ -1878,16 +1804,16 @@
             "type": "string"
           },
           "deliveryStatus": {
-            "$ref": "#/components/schemas/DeliveryStatus"
+            "type": "string"
           },
-          "created_at": {
+          "createdAt": {
             "type": [
               "string",
               "null"
             ],
             "format": "date-time"
           },
-          "updated_at": {
+          "updatedAt": {
             "type": [
               "string",
               "null"
@@ -1899,25 +1825,25 @@
           }
         },
         "required": [
-          "orderItemID",
-          "orderID",
-          "productID",
+          "orderItemId",
+          "orderId",
+          "productId",
           "quantity",
           "itemTotalPrice",
           "deliveryStatus",
-          "created_at",
-          "updated_at"
+          "createdAt",
+          "updatedAt"
         ],
         "title": "OrderItemResource"
       },
       "OrderResource": {
         "type": "object",
         "properties": {
-          "orderID": {
-            "type": "integer"
+          "orderId": {
+            "type": "string"
           },
-          "customerID": {
-            "type": "integer"
+          "customerId": {
+            "type": "string"
           },
           "totalPrice": {
             "type": "string"
@@ -1926,19 +1852,19 @@
             "type": "string"
           },
           "orderStatus": {
-            "$ref": "#/components/schemas/OrderStatus"
+            "type": "string"
           },
           "isPaid": {
-            "type": "boolean"
+            "type": "string"
           },
-          "created_at": {
+          "createdAt": {
             "type": [
               "string",
               "null"
             ],
             "format": "date-time"
           },
-          "updated_at": {
+          "updatedAt": {
             "type": [
               "string",
               "null"
@@ -1956,32 +1882,22 @@
           }
         },
         "required": [
-          "orderID",
-          "customerID",
+          "orderId",
+          "customerId",
           "totalPrice",
           "dueDate",
           "orderStatus",
           "isPaid",
-          "created_at",
-          "updated_at"
+          "createdAt",
+          "updatedAt"
         ],
         "title": "OrderResource"
-      },
-      "OrderStatus": {
-        "type": "string",
-        "enum": [
-          "pending",
-          "processing",
-          "completed",
-          "cancelled"
-        ],
-        "title": "OrderStatus"
       },
       "ProductResource": {
         "type": "object",
         "properties": {
-          "productID": {
-            "type": "integer"
+          "productId": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -1996,13 +1912,13 @@
             "type": "string"
           },
           "currentQuantity": {
-            "type": "integer"
+            "type": "string"
           },
           "reorderLevel": {
-            "type": "integer"
+            "type": "string"
           },
           "reorderQuantity": {
-            "type": "integer"
+            "type": "string"
           },
           "images": {
             "type": "array",
@@ -2010,14 +1926,14 @@
               "type": "string"
             }
           },
-          "created_at": {
+          "createdAt": {
             "type": [
               "string",
               "null"
             ],
             "format": "date-time"
           },
-          "updated_at": {
+          "updatedAt": {
             "type": [
               "string",
               "null"
@@ -2026,7 +1942,7 @@
           }
         },
         "required": [
-          "productID",
+          "productId",
           "name",
           "description",
           "costPrice",
@@ -2035,15 +1951,15 @@
           "reorderLevel",
           "reorderQuantity",
           "images",
-          "created_at",
-          "updated_at"
+          "createdAt",
+          "updatedAt"
         ],
         "title": "ProductResource"
       },
       "RedeemCodeRequest": {
         "type": "object",
         "properties": {
-          "customerID": {
+          "customerId": {
             "type": "integer"
           },
           "code": {
@@ -2051,7 +1967,7 @@
           }
         },
         "required": [
-          "customerID",
+          "customerId",
           "code"
         ],
         "title": "RedeemCodeRequest"
@@ -2072,23 +1988,23 @@
             "type": "string",
             "minLength": 8
           },
-          "first_name": {
+          "firstName": {
             "type": "string",
             "maxLength": 255
           },
-          "middle_name": {
+          "middleName": {
             "type": "string",
             "maxLength": 255
           },
-          "last_name": {
+          "lastName": {
             "type": "string",
             "maxLength": 255
           },
-          "house_no": {
+          "houseNo": {
             "type": "string",
             "maxLength": 50
           },
-          "street_name": {
+          "streetName": {
             "type": "string",
             "maxLength": 255
           },
@@ -2096,7 +2012,7 @@
             "type": "string",
             "maxLength": 100
           },
-          "zip_code": {
+          "zipCode": {
             "type": "string",
             "maxLength": 20
           },
@@ -2113,47 +2029,47 @@
           "name",
           "email",
           "password",
-          "first_name",
-          "middle_name",
-          "last_name",
-          "house_no",
-          "street_name",
+          "firstName",
+          "middleName",
+          "lastName",
+          "houseNo",
+          "streetName",
           "city",
-          "zip_code",
+          "zipCode",
           "phone",
           "password_confirmation"
         ],
         "title": "RegisterRequest"
       },
-      "ReorderNotice": {
+      "ReorderNoticeResource": {
         "type": "object",
         "properties": {
-          "id": {
+          "reorderNoticeId": {
             "type": "integer"
           },
-          "productID": {
-            "type": "integer"
+          "productId": {
+            "type": "string"
           },
           "productName": {
             "type": "string"
           },
           "reorderQuantity": {
-            "type": "integer"
+            "type": "string"
           },
           "currentQuantity": {
-            "type": "integer"
+            "type": "string"
           },
           "isResolved": {
-            "type": "boolean"
+            "type": "string"
           },
-          "created_at": {
+          "createdAt": {
             "type": [
               "string",
               "null"
             ],
             "format": "date-time"
           },
-          "updated_at": {
+          "updatedAt": {
             "type": [
               "string",
               "null"
@@ -2162,66 +2078,66 @@
           }
         },
         "required": [
-          "id",
-          "productID",
+          "reorderNoticeId",
+          "productId",
           "productName",
           "reorderQuantity",
           "currentQuantity",
           "isResolved",
-          "created_at",
-          "updated_at"
+          "createdAt",
+          "updatedAt"
         ],
-        "title": "ReorderNotice"
+        "title": "ReorderNoticeResource"
       },
       "StoreCustomerRequest": {
         "type": "object",
         "properties": {
-          "first_name": {
+          "firstName": {
             "type": "string"
           },
-          "middle_name": {
+          "middleName": {
             "type": "string"
           },
-          "last_name": {
+          "lastName": {
             "type": "string"
           },
           "phone": {
             "type": "string"
           },
-          "house_no": {
+          "houseNo": {
             "type": "string"
           },
-          "street_name": {
+          "streetName": {
             "type": "string"
           },
           "city": {
             "type": "string"
           },
-          "zip_code": {
+          "zipCode": {
             "type": "string"
           },
-          "credit_limit": {
+          "creditLimit": {
             "type": "number",
             "minimum": 0
           }
         },
         "required": [
-          "first_name",
-          "middle_name",
-          "last_name",
+          "firstName",
+          "middleName",
+          "lastName",
           "phone",
-          "house_no",
-          "street_name",
+          "houseNo",
+          "streetName",
           "city",
-          "zip_code",
-          "credit_limit"
+          "zipCode",
+          "creditLimit"
         ],
         "title": "StoreCustomerRequest"
       },
       "StoreOrderRequest": {
         "type": "object",
         "properties": {
-          "customerID": {
+          "customerId": {
             "type": "integer"
           },
           "dueDate": {
@@ -2233,7 +2149,7 @@
             "items": {
               "type": "object",
               "properties": {
-                "productID": {
+                "productId": {
                   "type": "integer"
                 },
                 "quantity": {
@@ -2242,7 +2158,7 @@
                 }
               },
               "required": [
-                "productID",
+                "productId",
                 "quantity"
               ]
             },
@@ -2250,7 +2166,7 @@
           }
         },
         "required": [
-          "customerID",
+          "customerId",
           "dueDate",
           "items"
         ],
@@ -2328,23 +2244,23 @@
       "UpdateCustomerRequest": {
         "type": "object",
         "properties": {
-          "first_name": {
+          "firstName": {
             "type": "string",
             "maxLength": 255
           },
-          "middle_name": {
+          "middleName": {
             "type": "string",
             "maxLength": 255
           },
-          "last_name": {
+          "lastName": {
             "type": "string",
             "maxLength": 255
           },
-          "house_no": {
+          "houseNo": {
             "type": "string",
             "maxLength": 50
           },
-          "street_name": {
+          "streetName": {
             "type": "string",
             "maxLength": 255
           },
@@ -2352,7 +2268,7 @@
             "type": "string",
             "maxLength": 100
           },
-          "zip_code": {
+          "zipCode": {
             "type": "string",
             "maxLength": 20
           },
@@ -2360,7 +2276,7 @@
             "type": "string",
             "maxLength": 20
           },
-          "credit_limit": {
+          "creditLimit": {
             "type": "number",
             "minimum": 0
           }

@@ -9,20 +9,20 @@ class ReorderNotice extends Model
     protected $table = 'reorder_notices';
 
     protected $fillable = [
-        'productID',
-        'productName',
-        'reorderQuantity',
-        'currentQuantity',
-        'isResolved',
+        'product_id',
+        'product_name',
+        'reorder_quantity',
+        'current_quantity',
+        'is_resolved',
     ];
 
     protected $casts = [
-        'isResolved' => 'boolean',
+        'is_resolved' => 'boolean',
     ];
 
     public function product()
     {
         // Link notice to its product.
-        return $this->belongsTo(Product::class, 'productID', 'productID');
+        return $this->belongsTo(Product::class, 'product_id', 'product_id');
     }
 }

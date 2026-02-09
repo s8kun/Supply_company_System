@@ -29,14 +29,14 @@ Body (JSON):
   "name": "Customer Name",
   "email": "customer@example.com",
   "password": "password123",
-  "password_confirmation": "password123",
-  "first_name": "Ahmed",
-  "middle_name": "Ali",
-  "last_name": "Hassan",
-  "house_no": "12",
-  "street_name": "King Road",
+  "passwordConfirmation": "password123",
+  "firstName": "Ahmed",
+  "middleName": "Ali",
+  "lastName": "Hassan",
+  "houseNo": "12",
+  "streetName": "King Road",
   "city": "Riyadh",
-  "zip_code": "11564",
+  "zipCode": "11564",
   "phone": "0551234567"
 }
 ```
@@ -93,34 +93,34 @@ DeliveryStatus:
 Body (JSON):
 ```json
 {
-  "first_name": "Ahmed",
-  "middle_name": "Ali",
-  "last_name": "Hassan",
-  "house_no": "12",
-  "street_name": "King Road",
+  "firstName": "Ahmed",
+  "middleName": "Ali",
+  "lastName": "Hassan",
+  "houseNo": "12",
+  "streetName": "King Road",
   "city": "Riyadh",
-  "zip_code": "11564",
+  "zipCode": "11564",
   "phone": "0551234567",
-  "credit_limit": 5000.00
+  "creditLimit": 5000.00
 }
 ```
 
 ### Show customer
-`GET /customers/{customerID}`
+`GET /customers/{customerId}`
 
 ### Update customer
-`PUT /customers/{customerID}`
+`PUT /customers/{customerId}`
 
 Body (JSON, partial allowed):
 ```json
 {
   "phone": "0559998888",
-  "credit_limit": 7500.00
+  "creditLimit": 7500.00
 }
 ```
 
 ### Delete customer
-`DELETE /customers/{customerID}`
+`DELETE /customers/{customerId}`
 
 ## Products
 
@@ -160,15 +160,15 @@ images[]=@/path/to/image3.jpg
 ```
 
 ### Show product
-`GET /products/{productID}`
+`GET /products/{productId}`
 
 ### Update product
-`PUT /products/{productID}` (or `PATCH`)
+`PUT /products/{productId}` (or `PATCH`)
 
 If you send `images[]`, existing images are replaced.
 
 ### Delete product
-`DELETE /products/{productID}`
+`DELETE /products/{productId}`
 
 ## Orders
 
@@ -189,11 +189,11 @@ Notes:
 Body (JSON):
 ```json
 {
-  "customerID": 1,
+  "customerId": 1,
   "dueDate": "2026-02-10",
   "items": [
-    { "productID": 1, "quantity": 2 },
-    { "productID": 2, "quantity": 1 }
+    { "productId": 1, "quantity": 2 },
+    { "productId": 2, "quantity": 1 }
   ]
 }
 ```
@@ -203,10 +203,10 @@ Notes:
 - Customer credit is decreased by the order total.
 
 ### Show order
-`GET /orders/{orderID}`
+`GET /orders/{orderId}`
 
 ### Update order
-`PATCH /orders/{orderID}`
+`PATCH /orders/{orderId}`
 
 Body (JSON, partial allowed):
 ```json
@@ -217,7 +217,7 @@ Body (JSON, partial allowed):
 ```
 
 ### Cancel order
-`POST /orders/{orderID}/cancel`
+`POST /orders/{orderId}/cancel`
 
 Rules:
 - Cancellation allowed only if no items are delivered.
@@ -225,7 +225,7 @@ Rules:
 - Inventory is not changed (stock is reduced only on delivery).
 
 ### Delete order
-`DELETE /orders/{orderID}`
+`DELETE /orders/{orderId}`
 
 ## Order Items
 
@@ -235,10 +235,10 @@ Rules:
 `GET /order-items`
 
 ### Show order item
-`GET /order-items/{orderItemID}`
+`GET /order-items/{orderItemId}`
 
 ### Deliver order item
-`PATCH /order-items/{orderItemID}`
+`PATCH /order-items/{orderItemId}`
 
 Body (JSON):
 ```json
@@ -269,14 +269,14 @@ You can optionally pass a custom `code`.
 Body (JSON):
 ```json
 {
-  "customerID": 1,
+  "customerId": 1,
   "code": "PASTE_CODE_HERE"
 }
 ```
 
 Notes:
 - Codes are single-use.
-- `customerID` is resolved from the authenticated customer.
+- `customerId` is resolved from the authenticated customer.
 - Reusing a code returns a validation error.
 
 ## Reorder Notices
@@ -287,4 +287,4 @@ Notes:
 `GET /reorder-notices`
 
 ### Show reorder notice
-`GET /reorder-notices/{reorderNoticeID}`
+`GET /reorder-notices/{reorderNoticeId}`

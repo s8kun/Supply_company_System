@@ -33,11 +33,11 @@ class ProductSeeder extends Seeder
             Product::query()->create([
                 'name' => $faker->unique()->words(2, true),
                 'description' => $faker->sentence(8),
-                'costPrice' => $costPrice,
-                'sellPrice' => $sellPrice,
-                'currentQuantity' => $faker->numberBetween(0, 120),
-                'reorderLevel' => $reorderLevel,
-                'reorderQuantity' => $reorderQuantity,
+                'cost_price' => $costPrice,
+                'sell_price' => $sellPrice,
+                'current_quantity' => $faker->numberBetween(0, 120),
+                'reorder_level' => $reorderLevel,
+                'reorder_quantity' => $reorderQuantity,
                 'images' => $images,
             ]);
         }

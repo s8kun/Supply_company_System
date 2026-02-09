@@ -14,11 +14,11 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-  "customerID": {{customerId}},
+  "customerId": {{customerId}},
   "dueDate": "2026-02-10",
   "items": [
-    { "productID": 1, "quantity": 2 },
-    { "productID": 2, "quantity": 1 }
+    { "productId": 1, "quantity": 2 },
+    { "productId": 2, "quantity": 1 }
   ]
 }
 

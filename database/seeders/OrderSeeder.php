@@ -40,13 +40,13 @@ class OrderSeeder extends Seeder
             $products = Product::query()->inRandomOrder()->take($faker->numberBetween(1, 3))->get();
 
             foreach ($products as $product) {
-                $maxQty = (int) $product->currentQuantity;
+                $maxQty = (int) $product->current_quantity;
                 if ($maxQty < 1) {
                     continue;
                 }
                 $qty = $faker->numberBetween(1, min(5, $maxQty));
                 $items[] = [
-                    'productID' => $product->productID,
+                    'product_id' => $product->product_id,
                     'quantity' => $qty,
                 ];
             }
@@ -57,8 +57,8 @@ class OrderSeeder extends Seeder
 
             try {
                 $order = $orderService->placeOrder([
-                    'customerID' => $customer->customerID,
-                    'dueDate' => now()->addDays($faker->numberBetween(1, 14))->toDateString(),
+                    'customer_id' => $customer->customer_id,
+                    'due_date' => now()->addDays($faker->numberBetween(1, 14))->toDateString(),
                     'items' => $items,
                 ]);
             } catch (ValidationException) {

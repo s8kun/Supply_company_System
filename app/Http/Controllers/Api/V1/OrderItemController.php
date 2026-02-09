@@ -49,7 +49,7 @@ class OrderItemController extends Controller
      */
     public function update(UpdateOrderItemRequest $request, OrderItem $orderItem): JsonResponse
     {
-        $status = DeliveryStatus::from($request->validated()['deliveryStatus']);
+        $status = DeliveryStatus::from($request->validatedSnake()['delivery_status']);
         $orderItem = $this->orderItemService->updateDeliveryStatus($orderItem, $status);
 
         return response()->json([

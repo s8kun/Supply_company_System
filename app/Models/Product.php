@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $primaryKey = 'productID';
+    protected $primaryKey = 'product_id';
     protected $table = 'products';
     protected $fillable = [
         'name',
         'description',
-        'costPrice',
-        'sellPrice',
-        'currentQuantity',
-        'reorderLevel',
-        'reorderQuantity',
+        'cost_price',
+        'sell_price',
+        'current_quantity',
+        'reorder_level',
+        'reorder_quantity',
         'images',
     ];
 
@@ -26,6 +26,6 @@ class Product extends Model
     public function reorderNotices()
     {
         // Link product to its reorder notices.
-        return $this->hasMany(ReorderNotice::class, 'productID', 'productID');
+        return $this->hasMany(ReorderNotice::class, 'product_id', 'product_id');
     }
 }

@@ -13,13 +13,13 @@ Artisan::command('inspire', function () {
 // Generate reorder notices for products at or below reorder level.
 Artisan::command('reorder:generate', function (ReorderNoticeService $reorderNoticeService) {
     Product::query()
-        ->whereColumn('currentQuantity', '<=', 'reorderLevel')
-        ->orderBy('productID')
+        ->whereColumn('current_quantity', '<=', 'reorder_level')
+        ->orderBy('product_id')
         ->chunkById(200, function ($products) use ($reorderNoticeService) {
             foreach ($products as $product) {
                 $reorderNoticeService->createIfNeeded($product);
             }
-        }, 'productID');
+        }, 'product_id');
 })->purpose('Generate reorder notices for low stock products');
 
 // Run reorder notice generation on a schedule.

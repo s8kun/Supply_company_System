@@ -12,7 +12,7 @@ class CustomerService
      */
     public function createNewCustomer(StoreCustomerRequest $request, Customer $customer): Customer
     {
-        $customer->fill($request->validated());
+        $customer->fill($request->validatedSnake());
         $customer->save();
         return $customer;
     }

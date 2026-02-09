@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\CamelCaseRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRedeemCodeRequest extends FormRequest
 {
+    use CamelCaseRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */

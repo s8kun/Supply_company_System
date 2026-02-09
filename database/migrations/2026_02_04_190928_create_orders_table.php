@@ -11,13 +11,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id('orderID');
-            $table->unsignedBigInteger('customerID');
-            $table->foreign('customerID')->references('customerID')->on('customers');
-            $table->date('dueDate');
-            $table->decimal('totalPrice', 10, 2);
-            $table->string('orderStatus')->default('pending');
-            $table->boolean('isPaid')->default(false);
+            $table->id('order_id');
+            $table->unsignedBigInteger('customer_id');
+            $table->foreign('customer_id')->references('customer_id')->on('customers');
+            $table->date('due_date');
+            $table->decimal('total_price', 10, 2);
+            $table->string('order_status')->default('pending');
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });
     }

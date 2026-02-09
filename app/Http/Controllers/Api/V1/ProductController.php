@@ -36,7 +36,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $data = $request->validatedSnake();
 
         if ($request->hasFile('images')) {
             $paths = [];
@@ -72,7 +72,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
-        $data = $request->validated();
+        $data = $request->validatedSnake();
 
         if ($request->hasFile('images')) {
             foreach (($product->images ?? []) as $path) {

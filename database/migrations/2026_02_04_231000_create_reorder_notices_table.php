@@ -12,14 +12,14 @@ return new class extends Migration {
     {
         Schema::create('reorder_notices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('productID');
-            $table->string('productName');
-            $table->integer('reorderQuantity');
-            $table->integer('currentQuantity');
-            $table->boolean('isResolved')->default(false);
+            $table->unsignedBigInteger('product_id');
+            $table->string('product_name');
+            $table->integer('reorder_quantity');
+            $table->integer('current_quantity');
+            $table->boolean('is_resolved')->default(false);
             $table->timestamps();
 
-            $table->foreign('productID')->references('productID')->on('products');
+            $table->foreign('product_id')->references('product_id')->on('products');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ReorderNoticeResource;
 use App\Models\ReorderNotice;
 use Illuminate\Http\JsonResponse;
 
@@ -15,7 +16,9 @@ class ReorderNoticeController extends Controller
     {
         return response()->json([
             'status' => 'success',
-            'data' => ReorderNotice::query()->latest()->paginate(10),
+            'data' => ReorderNoticeResource::collection(
+                ReorderNotice::query()->latest()->paginate(10)
+            ),
         ], 200);
     }
 
@@ -26,7 +29,7 @@ class ReorderNoticeController extends Controller
     {
         return response()->json([
             'status' => 'success',
-            'data' => $reorderNotice,
+            'data' => new ReorderNoticeResource($reorderNotice),
         ], 200);
     }
 }

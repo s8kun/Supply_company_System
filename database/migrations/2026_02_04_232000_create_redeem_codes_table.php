@@ -14,12 +14,12 @@ return new class extends Migration {
             $table->id();
             $table->string('code')->unique();
             $table->decimal('amount', 10, 2);
-            $table->boolean('isUsed')->default(false);
-            $table->timestamp('usedAt')->nullable();
-            $table->unsignedBigInteger('usedByCustomerID')->nullable();
+            $table->boolean('is_used')->default(false);
+            $table->timestamp('used_at')->nullable();
+            $table->unsignedBigInteger('used_by_customer_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('usedByCustomerID')->references('customerID')->on('customers');
+            $table->foreign('used_by_customer_id')->references('customer_id')->on('customers');
         });
     }
 
