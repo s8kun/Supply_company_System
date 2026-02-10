@@ -41,7 +41,7 @@ class ProductController extends Controller
         if ($request->hasFile('images')) {
             $paths = [];
             foreach ($request->file('images') as $image) {
-                $paths[] = $this->imageService->upload($image, 'products');
+                $paths[] = $this->imageService->upload($image, 'products', 's3');
             }
             $data['images'] = $paths;
         } else {
@@ -76,12 +76,12 @@ class ProductController extends Controller
 
         if ($request->hasFile('images')) {
             foreach (($product->images ?? []) as $path) {
-                $this->imageService->delete($path);
+                $this->imageService->delete($path, 's3');
             }
 
             $paths = [];
             foreach ($request->file('images') as $image) {
-                $paths[] = $this->imageService->upload($image, 'products');
+                $paths[] = $this->imageService->upload($image, 'products', 's3');
             }
             $data['images'] = $paths;
         } else {
@@ -102,7 +102,7 @@ class ProductController extends Controller
     public function destroy(Product $product): JsonResponse
     {
         foreach (($product->images ?? []) as $path) {
-            $this->imageService->delete($path);
+            $this->imageService->delete($path, 's3');
         }
 
         $product->delete();

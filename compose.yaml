@@ -44,8 +44,8 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD:-root}
       MYSQL_USER: ${DB_USERNAME:-laravel}
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    ports:
-      - "3306:3306"
+    #ports:
+     # - "3306:3306"
     volumes:
       - supply-db-data:/var/lib/mysql
     networks:
